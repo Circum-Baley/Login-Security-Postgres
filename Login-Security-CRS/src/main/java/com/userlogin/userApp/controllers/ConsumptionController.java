@@ -26,6 +26,8 @@ public class ConsumptionController {
 	
  
 	
+	
+	// a traves del id de consumo obtenemos el consumo 
 	@GetMapping("/{consumptionId}")
 	public ResponseEntity<Consumption> getConsumptionById(@PathVariable("consumptionId") Integer consumptionId){
 		return new ResponseEntity<Consumption>(consumptionService.getConsumptionById(consumptionId),HttpStatus.OK);
