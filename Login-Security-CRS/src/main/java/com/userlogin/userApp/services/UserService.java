@@ -53,11 +53,17 @@ public class UserService {
 		
 	}
 	
+	public User getPieChartData() {
+		
+	}
+	
 //	@CacheEvict("users")
 	public void deleteUserByUsername(String username) {
 		User user = getUserByUsername(username);
 		userRepository.delete(user);
 	}
+	
+	
 
 //	@Autowired 
 //	private UserRepository userRepository;
