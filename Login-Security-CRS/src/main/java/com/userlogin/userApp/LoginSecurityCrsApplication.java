@@ -1,5 +1,6 @@
 package com.userlogin.userApp;
 
+import java.util.List;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -12,6 +13,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import com.github.javafaker.Faker;
 //import com.userlogin.userApp.config.FakerBeanConfig;
@@ -41,11 +47,20 @@ public class LoginSecurityCrsApplication implements ApplicationRunner{
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(LoginSecurityCrsApplication.class, args);
 		System.out.println("Benvenidos мать ублюдок");	
 		}
 
+	
+	
+	/*
+	*   LandingPage
+	*/
+	public void addViewControllers(ViewControllerRegistry registry) {
+	    registry.addViewController("/").setViewName("forward:/index.html");
+	}
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		Role roles[] = {new Role("ADMIN"), new Role("ROOT"), new Role("USER"), new Role("SUPPORT")};

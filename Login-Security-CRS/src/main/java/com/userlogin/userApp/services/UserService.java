@@ -53,9 +53,10 @@ public class UserService {
 		
 	}
 	
-	public User getPieChartData() {
-		
-	}
+	//////// CHART /////////////////////////////////////////
+//	public User getPieChartData() {
+//		
+//	}
 	
 //	@CacheEvict("users")
 	public void deleteUserByUsername(String username) {

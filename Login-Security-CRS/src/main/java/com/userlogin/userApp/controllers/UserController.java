@@ -65,10 +65,10 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping("/piechart")
-	public ResponseEntity<User> getPieChartData(){
-		List<PiechartData> database = 
-	}
+//	@GetMapping("/piechart")
+//	public ResponseEntity<User> getPieChartData(){
+//		List<PiechartData> database = 
+//	}
 	
 }
 //	private UserService userService;
