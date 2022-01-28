@@ -1,7 +1,7 @@
 package com.userlogin.userApp.controllers;
 
+import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.userlogin.userApp.entities.Consumption;
-
+import com.userlogin.userApp.repositories.ConsumptionRepository;
 import com.userlogin.userApp.services.ConsumptionService;
+
+
 @RestController
 @RequestMapping("/api/consumption")
 public class ConsumptionController {
@@ -24,8 +28,10 @@ public class ConsumptionController {
 	@Autowired
 	private ConsumptionService consumptionService;
 	
- 
 	
+ 
+
+////////////////////////////////////////////////////////
 	
 	// a traves del id de consumo obtenemos el consumo 
 	@GetMapping("/{consumptionId}")

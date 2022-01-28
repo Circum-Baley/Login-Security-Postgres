@@ -52,14 +52,12 @@ public class LoginSecurityCrsApplication implements ApplicationRunner{
 		SpringApplication.run(LoginSecurityCrsApplication.class, args);
 		System.out.println("Benvenidos мать ублюдок");	
 		}
-
-	
 	
 	/*
 	*   LandingPage
 	*/
 	public void addViewControllers(ViewControllerRegistry registry) {
-	    registry.addViewController("/").setViewName("forward:/index.html");
+	    registry.addViewController("/").setViewName("forward:/index");
 	}
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
