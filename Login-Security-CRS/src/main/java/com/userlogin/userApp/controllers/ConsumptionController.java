@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.userlogin.userApp.entities.Consumption;
 import com.userlogin.userApp.repositories.ConsumptionRepository;
 import com.userlogin.userApp.services.ConsumptionService;
+
+import io.swagger.models.Model;
 
 
 @RestController
@@ -30,7 +34,14 @@ public class ConsumptionController {
 	
 	
  
-
+////////////////////////////////////////////////////////
+//	@GetMapping("/consumptionChart")
+//	public ViewResolver getViewResolver() {
+//	    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//	    resolver.setPrefix("/view/");
+//	    resolver.setSuffix(".xhtml");
+//	    return resolver;
+//	}
 ////////////////////////////////////////////////////////
 	
 	// a traves del id de consumo obtenemos el consumo 
