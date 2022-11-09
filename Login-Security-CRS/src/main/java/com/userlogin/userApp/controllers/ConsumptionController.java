@@ -19,6 +19,8 @@ import com.userlogin.userApp.entities.Consumption;
 import com.userlogin.userApp.repositories.ConsumptionRepository;
 import com.userlogin.userApp.services.ConsumptionService;
 
+import io.swagger.models.Model;
+
 
 @RestController
 @RequestMapping("/api/consumption")
@@ -30,7 +32,14 @@ public class ConsumptionController {
 	
 	
  
-
+////////////////////////////////////////////////////////
+//	@GetMapping("/consumptionChart")
+//	public ViewResolver getViewResolver() {
+//	    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//	    resolver.setPrefix("/view/");
+//	    resolver.setSuffix(".xhtml");
+//	    return resolver;
+//	}
 ////////////////////////////////////////////////////////
 	
 	// a traves del id de consumo obtenemos el consumo 
