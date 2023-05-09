@@ -32,6 +32,7 @@ public class RoleController {
 	
 	@GetMapping
 	public ResponseEntity<List<Role>> getRoles(){
+		//Obtencion de informacion acerca del usuaario que ingreso al ENDPOINT
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		log.info("Name {}",authentication.getName());
 		log.info("principa {}",authentication.getPrincipal());

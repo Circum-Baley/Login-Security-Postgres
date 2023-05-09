@@ -8,5 +8,4 @@ import com.userlogin.userapp.entities.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer>{
 
-
 }

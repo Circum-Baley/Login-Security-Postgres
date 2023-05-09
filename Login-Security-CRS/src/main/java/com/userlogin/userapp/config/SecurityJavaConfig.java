@@ -16,33 +16,34 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(jsr250Enabled = true)
+//@EnableGlobalMethodSecurity(securedEnabled = true)
 //@EnableGlobalMethodSecurity(prePostEnabled = true) // , jsr250Enabled = true)
 
 public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
-
-
 //	Definimos Usuarios y toles para ingresar por
 //Solo se utiliza para agilizar el acceso a la base de datos para realizar pruebas y/o alguna programacion fugaz
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//		.withUser("admin").password(encoder().encode("password")).roles("ADMIN").and()
-//		.withUser("user").password(encoder().encode("password")).roles("USER").and()
-//		.withUser("root").password(encoder().encode("password")).roles("ROOT").and()
-//		.withUser("support").password(encoder().encode("password")).roles("SUPPORT");
-//	}
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication()
+		.withUser("admin").password(encoder().encode("password")).roles("ADMIN").and()
+		.withUser("user").password(encoder().encode("password")).roles("USER").and()
+		.withUser("root").password(encoder().encode("password")).roles("ROOT").and()
+		.withUser("support").password(encoder().encode("password")).roles("SUPPORT");
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 //		http.headers().frameOptions().disable();
-		http.csrf().disable().authorizeRequests().antMatchers("/api-user/**").hasRole("USER").antMatchers("/api-usinro/**")
-				.permitAll().anyRequest().authenticated().and().httpBasic();
+		http.csrf().disable().authorizeRequests().antMatchers("/api-user/**").hasRole("USER")
+				.antMatchers("/api-usinro/**").permitAll().anyRequest().authenticated().and().httpBasic();
 //		http.csrf().disable().authorizeRequests()
 ////		.antMatchers("/api/users/**").hasRole("ADMIN")
 //		.antMatchers("/api/**").permitAll() //.anyRequest().authenticated()
 //		.and().httpBasic();
 	}
+
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();

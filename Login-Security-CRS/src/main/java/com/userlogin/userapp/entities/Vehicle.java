@@ -29,6 +29,7 @@ public class Vehicle {
 	private User user;
 
 	
+	
 	public User getUser() {
 		return user;
 	}

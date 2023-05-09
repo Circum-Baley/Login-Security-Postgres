@@ -1,5 +1,7 @@
 package com.userlogin.userapp.controllers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import com.userlogin.userapp.entities.Vehicle;
 import com.userlogin.userapp.services.VehicleService;
 
 @RestController
-@RequestMapping("/api/{userId}/vehicles/{vehicleId}")
+@RequestMapping("/api-vehicle")//{userId}/vehicles/{vehicleId}")
 public class VehicleController {
 	
 	
@@ -29,12 +31,12 @@ public class VehicleController {
 //	public ResponseEntity<Page<User>> getUsers(@RequestParam("page") int page,@RequestParam("size") int size){
 //		return new ResponseEntity<>(userService.getUsers(page,size),HttpStatus.OK);
 //	}
-	@GetMapping("/{vehicleId}")
+	@GetMapping("/user/{userId}/vehicle/{vehicleId}")
 	public ResponseEntity<Vehicle> getById(@PathVariable("userId") Integer userId,@PathVariable("vehicleId") Integer vehicleId){
 		return new ResponseEntity<Vehicle>(vehicleService.getByUserIdAndVehicleId(userId,vehicleId),HttpStatus.OK);
 	}
 	
-	@PostMapping
+	@PostMapping("/user/{userId}")
 	public ResponseEntity<Vehicle> createVehicleUser(@PathVariable("userId") Integer userId,@RequestBody Vehicle vehicle){
 		return new ResponseEntity<Vehicle>(vehicleService.createVehicleUser(userId,vehicle),HttpStatus.CREATED);
 	}
@@ -49,10 +51,10 @@ public class VehicleController {
 //	public ResponseEntity<Vehicle> getVehicleByPatentAndById(@PathVariable("patent") String patent,@PathVariable("vehicleId") Integer vehicleId){
 //		return new ResponseEntity<Vehicle>(vehicleService.getVehicleByPatentAndId(patent, vehicleId),HttpStatus.OK);
 //	}
-//	@GetMapping
-//	public ResponseEntity<List<Vehicle>> getVehicles(){
-//		return new ResponseEntity<List<Vehicle>>(vehicleService.getVehicles(),HttpStatus.OK);
-//	}
+	@GetMapping
+	public ResponseEntity<List<Vehicle>> getVehicles(){
+		return new ResponseEntity<List<Vehicle>>(vehicleService.getVehicles(),HttpStatus.OK);
+	}
 	/***
 	 * Devuelve todos los username de todos los registros ya predefinidos*/
 //	@GetMapping("/patent")
@@ -62,15 +64,15 @@ public class VehicleController {
 	
 	//////
 	
-//	@PostMapping("/v")
-//	public ResponseEntity<Vehicle> createVehicles(@RequestBody Vehicle vehicle){
+	@PostMapping
+	public ResponseEntity<Vehicle> createVehicles(@RequestBody Vehicle vehicle){
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //		log.info("Name {}",authentication.getName());
 //		log.info("principa {}",authentication.getPrincipal());
 //		log.info("Credenciales {}",authentication.getCredentials());
 //		log.info("rol {}",authentication.getAuthorities().toString());
-//		return new ResponseEntity<Vehicle>(vehicleService.createVehicle(vehicle),HttpStatus.CREATED);
-//	}
+		return new ResponseEntity<Vehicle>(vehicleService.createVehicle(vehicle),HttpStatus.CREATED);
+	}
 	
 	
 	@DeleteMapping("/{patent}")
