@@ -13,39 +13,50 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="profile")
+@Table(name = "profile")
 public class Profile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="profile_id")
 	private Integer id;
-	
+
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "lastName")
 	private String lastName;
-	
+
 	@Column(name = "birthDate")
 //	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //	@Temporal(TemporalType.DATE)
 	private Date birthDate;
 
-	
+	@OneToOne
+	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
+	private User user;
+
+	public Profile() {
+	}
+
+	public Profile(String name, String lastName, Date birthDate, User user) {
+		this.name = name;
+		this.lastName = lastName;
+		this.birthDate = birthDate;
+		this.user = user;
+	}
 
 	public Date getBirthDate() {
 		return birthDate;
 	}
+
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
-	@OneToOne
-	@JoinColumn(name = "profile_id_fk", referencedColumnName = "user_id")
-	private User user;
-	
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -74,11 +85,16 @@ public class Profile {
 		this.lastName = lastName;
 	}
 
-
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
+	}
+
+	
+	@Override
+	public String toString() {
+		return "\nPROFILE :\n\tID = " + id + "\n\tname=" + name + "\n\tlastName=" + lastName + "\n\tbirthDate=" + birthDate
+				+ "\n\t\tuser :" + getUser();
 	}
 
 	@Override
@@ -93,9 +109,4 @@ public class Profile {
 		return Objects.equals(id, other.id);
 	}
 
-
-	
-	
-	
-	
 }

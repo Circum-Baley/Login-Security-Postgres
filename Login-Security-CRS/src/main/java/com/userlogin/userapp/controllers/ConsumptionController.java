@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.userlogin.userapp.entities.Consumption;
+import com.userlogin.userapp.entities.Vehicle;
+import com.userlogin.userapp.repositories.VehicleRepository;
 import com.userlogin.userapp.services.ConsumptionService;
+import com.userlogin.userapp.services.VehicleService;
 
 @RestController
 @RequestMapping("/api-consumption")
 public class ConsumptionController {
 
+	@Autowired
+	private VehicleService vehicleService;
 	@Autowired
 	private ConsumptionService consumptionService;
 
@@ -38,6 +43,52 @@ public class ConsumptionController {
 	public ResponseEntity<Consumption> getConsumptionById(@PathVariable("consumptionId") Integer consumptionId) {
 		return new ResponseEntity<Consumption>(consumptionService.getConsumptionById(consumptionId), HttpStatus.OK);
 	}
+
+	@GetMapping("/vehicle/{vehicleId}/consumption-count")
+	public ResponseEntity<Integer> getConsumptionsByVehicleCount(@PathVariable("vehicleId") Integer vehicleId,
+			@RequestBody Vehicle vehicle) {
+		Consumption consumption = consumptionService.getConsumptionById(vehicleId);
+		if (consumption == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		int count = consumptionService.getCountConsumptionsByVehicle(vehicle);
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+//----------------------------------------------------
+//	@GetMapping("/vehicles/{vehicleId}/consumptionCount")
+//	public ResponseEntity<List<Consumption>> getVehicleByCountConsumption(
+//			@PathVariable("vehicleId") Integer vehicleId) {
+//			@RequestBody(required = false) Vehicle vehicle) {
+//		Vehicle vehicle = vehicleService.getVehicleById(vehicleId);
+//		if (vehicle == null) {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+
+//		for (Consumption consumption : consumptions) {
+//			consumption.getAmount();
+//		}
+//		List<Consumption> consumptions;
+//		if (vehicle != null && vehicle.getPatent() != null) {
+//			consumptions = consumptionService.getConsumptionByVehicle(vehicle);
+//		}else {
+//			consumptions=consumptionService.getConsumptionByVehicle(vehicle)
+//		}
+
+//		List<Vehicle> vehicles = vehicleService.getVehicles();
+//		List<VehicleConsumptionCount> counts = new ArrayList<>();
+
+//		for (Vehicle vehicle : vehicles) {
+//			int consumptionCount = consumptionService.getConsumptionsByVehicle(vehicle).size();
+//			VehicleConsumptionCount count = new VehicleConsumptionCount(vehicle.getId(), vehicle.getName(),
+//					consumptionCount);
+//			counts.add(count);
+//		}
+//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+////		return new ResponseEntity<List<VehicleConsumptionCount>>(counts, HttpStatus.OK);
+//	}
+//
+//	// ----------------------------------------------------
 
 	@GetMapping
 	public ResponseEntity<List<Consumption>> getConsumptions() {

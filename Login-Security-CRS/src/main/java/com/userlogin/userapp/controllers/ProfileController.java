@@ -1,5 +1,7 @@
 package com.userlogin.userapp.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,13 @@ import com.userlogin.userapp.entities.Profile;
 import com.userlogin.userapp.services.ProfileService;
 
 @RestController
-@RequestMapping("/api-user/{userId}/profiles")
+@RequestMapping("/api-profile")
 public class ProfileController {
 
 	@Autowired
 	private ProfileService profileService;
 
-	@GetMapping("/{profileId}")
+	@GetMapping("/{userId}/{profileId}")
 	public ResponseEntity<Profile> getById(@PathVariable("userId") Integer userId,
 			@PathVariable("profileId") Integer profileId) {
 		return new ResponseEntity<Profile>(profileService.getByUserIdAndProfileId(userId, profileId), HttpStatus.OK);
@@ -33,6 +35,10 @@ public class ProfileController {
 		return new ResponseEntity<Profile>(profileService.createProfileS(userId, profile), HttpStatus.CREATED);
 	}
 
+	@GetMapping
+	public ResponseEntity<List<Profile>> getProfile() {
+		return new ResponseEntity<List<Profile>>(profileService.getProfile(), HttpStatus.OK);
+	}
 //	@DeleteMapping("/{userId}")
 //	public ResponseEntity<void> deleteProfile(@PathVariable("userId") Integer userId){
 //		Optinal<Profile> result=profileService.f

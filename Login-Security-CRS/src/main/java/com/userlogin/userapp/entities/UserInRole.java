@@ -21,18 +21,17 @@ public class UserInRole {
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_userfk",referencedColumnName = "user_id")
+	@JoinColumn(name = "user_id_fk",referencedColumnName = "user_id")
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_rolefk",referencedColumnName = "role_id")
+	@JoinColumn(name = "role_id_fk",referencedColumnName = "role_id")
 	private Role role;
 
 	public UserInRole() {
 		
 	}
 	public UserInRole(User user, Role role) {
-		super();
 		this.user = user;
 		this.role = role;
 	}

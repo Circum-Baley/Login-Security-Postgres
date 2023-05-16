@@ -38,6 +38,9 @@ public class AddressService {
 	public List<Address> findAddressesByProfileAndUserId(Integer userId, Integer profileId) {
 		return addressRepository.findByProfileId(userId,profileId);
 	}
+	public List<Address>getAddressList(){
+		return addressRepository.findAll();
+	}
 
 	public void deleteAddress(Integer addressId) {
 		Address address = addressRepository.findById(addressId)

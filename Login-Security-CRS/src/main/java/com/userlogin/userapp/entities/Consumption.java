@@ -1,15 +1,19 @@
 package com.userlogin.userapp.entities;
 
-
-
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,24 +25,33 @@ public class Consumption {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "consumption_id")
 	private Integer id;
-	
+
 	@Column(name = "amount")
 	private Double amount;
-	
+
 	@Column(name = "number")
 	private long number;
-	
-//	@Column(name = "fecha")
-//	private LocalDate date;
+
+	@Column(name = "date_uploaded")
+	private Date date;
 
 	@Column(name = "description")
 	private String description;
-	
-	
-	@OneToOne
-	@JoinColumn(name = "vehicle_id_fk", referencedColumnName = "vehicle_id")
+
+	@ManyToOne
+	@JoinColumn(name = "vehicle_id")
 	private Vehicle vehicle;
-	
+
+	public Consumption() {
+	}
+
+	public Consumption(Double amount, long number, Date date, String description, Vehicle vehicle) {
+		this.amount = amount;
+		this.number = number;
+		this.date = date;
+		this.description = description;
+		this.vehicle = vehicle;
+	}
 
 	public Vehicle getVehicle() {
 		return vehicle;
@@ -71,14 +84,14 @@ public class Consumption {
 	public void setNumber(long number) {
 		this.number = number;
 	}
-//
-//	public LocalDate getDate() {
-//		return date;
-//	}
-//
-//	public void setDate(LocalDate date) {
-//		this.date = date;
-//	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 	public String getDescription() {
 		return description;
@@ -87,8 +100,6 @@ public class Consumption {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
 
 	@Override
 	public int hashCode() {

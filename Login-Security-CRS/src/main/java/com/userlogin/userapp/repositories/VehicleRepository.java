@@ -2,14 +2,14 @@ package com.userlogin.userapp.repositories;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.userlogin.userapp.entities.Vehicle;
 
 @Repository
-public interface VehicleRepository  extends CrudRepository<Vehicle, Integer>{
+public interface VehicleRepository  extends JpaRepository<Vehicle, Integer>{
 
 	
 	@Query("SELECT c FROM Consumption c WHERE c.vehicle.id = ?1 AND c.id = ?2")

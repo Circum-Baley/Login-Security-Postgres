@@ -20,29 +20,32 @@ public class ConsumptionService {
 
 	@Autowired
 	private VehicleRepository vehicleRepository;
-	
+
 	public Consumption getConsumptionById(Integer consumptionId) {
-		return consumptionRepository.findById(consumptionId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Consumption N° = %d No Fue Encontrado", consumptionId)));
-	}
-	public Consumption createConsumption(Integer userId,Integer vehicleId, Consumption consumption) {
-		Optional<Vehicle> resultat = vehicleRepository.findByUserIdAndVehicleId(userId,vehicleId);
-		if(resultat.isPresent()) {
-			consumption.setVehicle(resultat.get());
-			return consumptionRepository.save(consumption);
-		}else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Vehiculo %d Y Usuario %d No Fuieron Encontrados NOT FOUND  ", vehicleId,userId));
-		}
-	}
-	public Optional<Consumption> findConsumptionByVehicleAndUserId(Integer userId, Integer vehicleId) {
-		return consumptionRepository.findByVehicleId(userId,vehicleId);
+		return consumptionRepository.findById(consumptionId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						String.format("Consumption N° = %d No Fue Encontrado", consumptionId)));
 	}
 
+	public Consumption createConsumption(Integer userId, Integer vehicleId, Consumption consumption) {
+		Optional<Vehicle> resultat = vehicleRepository.findByUserIdAndVehicleId(userId, vehicleId);
+		if (resultat.isPresent()) {
+			consumption.setVehicle(resultat.get());
+			return consumptionRepository.save(consumption);
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					String.format("Vehiculo %d Y Usuario %d No Fuieron Encontrados NOT FOUND  ", vehicleId, userId));
+		}
+	}
+
+	public Optional<Consumption> findConsumptionByVehicleAndUserId(Integer userId, Integer vehicleId) {
+		return consumptionRepository.findByVehicleId(userId, vehicleId);
+	}
 
 	public List<Consumption> getConsumptions() {
 		return consumptionRepository.findAll();
 	}
 
-	
 //	public List<Long> getNumbers() {
 //		return consumptionRepository.findByNumbers();
 //	}
@@ -63,11 +66,29 @@ public class ConsumptionService {
 
 	public void deleteConsumptionByNumber(Long number) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	
+
+	public Vehicle getVehicleById(Integer vehicleId) {
+		return vehicleRepository.getById(vehicleId);
+	}
+
+	public int getCountConsumptionsByVehicle(Vehicle vehicle) {
+		List<Consumption> consumptions = consumptionRepository.getConsumptionsByVehicle(vehicle);
+		return consumptions.size();
+	}
+
+	public List<Consumption> getConsumptionByVehicle(Vehicle vehicle) {
+		List<Consumption> consumptions = consumptionRepository.findAll();
+		for (Consumption consumption : consumptions) {
+			if (consumption.getVehicle() == null) {
+				consumptions.add(consumption);
+			}
+		}
+		return consumptions;
+	}
+}
+
 //	public Consumption getAddressById(Integer consumptionId) {
 //		return consumptionRepository.findById(consumptionId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Consumption %d not foundeichon", consumptionId)));
 //	}
@@ -105,64 +126,53 @@ public class ConsumptionService {
 //		consumptionRepository.delete(consumption);
 //	}
 
-}
+//}
 /**
-
-	public Address createAddress(Integer userId, Integer profileId, Address address) {
-		Optional<Profile> result = profileRepository.findByUserIdAndProfileId(userId, profileId);
-		if(result.isPresent()) {
-			address.setProfile(result.get());
-			return addressRepository.save(address);
-		}else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					String.format("Profile %d and User %d No Fueron Encontrados", profileId,userId));
-		}
-	}
-	
-	public List<Address> findAddressesByProfileAndUserId(Integer userId, Integer profileId) {
-		return addressRepository.findByProfileId(userId,profileId);
-	}
-
-	public void deleteAddress(Integer addressId) {
-		Address address = addressRepository.findById(addressId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Address %d Not Found :: " + addressId));
-		this.addressRepository.delete(address);
-		Map<String, Boolean> response = new HashMap<String, Boolean>();
-		response.put("deleted",Boolean.TRUE);
-	} 
-
-	public void deleteProfileAndAddress(Integer addressId) {
-		Optional<Address> resultat = addressRepository.findById(addressId);
-		if(resultat.isPresent()) {
-			addressRepository.findById(addressId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Address %d Profile Not Found!"));
-			addressRepository.deleteById(addressId);
-		}else {
-			throw new ResponseStatusException(HttpStatus.OK,"Address Successfully Removed !");
-		}
-	}
-	
-
-	 public void delete(Integer id){	        
-		 try{	     
-			 addressRepository.deleteById(id);	        
-		 }catch (DataIntegrityViolationException e){
-			 throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Address {} %d Nao é possivel excluir entidades relacionadas.");  
-		 }
-	 }
-
-	
-	
-	
-	public Address getAddressById(Integer addressId) {
-		return addressRepository.findById(addressId).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Address %d not foundeichon", addressId)));
-	}
-
-
-	
-	
-
-	
-}
-
- * */
- 
+ * 
+ * public Address createAddress(Integer userId, Integer profileId, Address
+ * address) { Optional<Profile> result =
+ * profileRepository.findByUserIdAndProfileId(userId, profileId);
+ * if(result.isPresent()) { address.setProfile(result.get()); return
+ * addressRepository.save(address); }else { throw new
+ * ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Profile %d and
+ * User %d No Fueron Encontrados", profileId,userId)); } }
+ * 
+ * public List<Address> findAddressesByProfileAndUserId(Integer userId, Integer
+ * profileId) { return addressRepository.findByProfileId(userId,profileId); }
+ * 
+ * public void deleteAddress(Integer addressId) { Address address =
+ * addressRepository.findById(addressId) .orElseThrow(() -> new
+ * ResponseStatusException(HttpStatus.NOT_FOUND,"Address %d Not Found :: " +
+ * addressId)); this.addressRepository.delete(address); Map<String, Boolean>
+ * response = new HashMap<String, Boolean>();
+ * response.put("deleted",Boolean.TRUE); }
+ * 
+ * public void deleteProfileAndAddress(Integer addressId) { Optional<Address>
+ * resultat = addressRepository.findById(addressId); if(resultat.isPresent()) {
+ * addressRepository.findById(addressId).orElseThrow(()->new
+ * ResponseStatusException(HttpStatus.NOT_FOUND,"Address %d Profile Not
+ * Found!")); addressRepository.deleteById(addressId); }else { throw new
+ * ResponseStatusException(HttpStatus.OK,"Address Successfully Removed !"); } }
+ * 
+ * 
+ * public void delete(Integer id){ try{ addressRepository.deleteById(id); }catch
+ * (DataIntegrityViolationException e){ throw new
+ * ResponseStatusException(HttpStatus.NOT_FOUND,"Address {} %d Nao é possivel
+ * excluir entidades relacionadas."); } }
+ * 
+ * 
+ * 
+ * 
+ * public Address getAddressById(Integer addressId) { return
+ * addressRepository.findById(addressId).orElseThrow(()-> new
+ * ResponseStatusException(HttpStatus.NOT_FOUND,String.format("Address %d not
+ * foundeichon", addressId))); }
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * }
+ * 
+ */

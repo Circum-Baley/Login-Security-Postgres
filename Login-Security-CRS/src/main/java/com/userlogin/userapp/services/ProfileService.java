@@ -1,5 +1,6 @@
 package com.userlogin.userapp.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class ProfileService {
 	@Autowired
 	private UserRepository userRepository;
 
+	
+	public List<Profile> getProfile(){
+		return profileRepository.findAll();
+	}
 	public Profile createProfileS(Integer userId, Profile profile) {
 		Optional<User> result = userRepository.findById(userId);
 		if (result.isPresent()) {

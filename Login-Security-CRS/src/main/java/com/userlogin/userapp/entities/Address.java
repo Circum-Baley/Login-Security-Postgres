@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,18 +16,30 @@ import javax.persistence.Table;
 public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "address_id")
 	private Integer id;
-	
+
 	@Column(name = "street")
 	private String street;
-	
+
 	@Column(name = "number")
 	private String number;
-	
+
 	@Column(name = "city")
 	private String city;
-	
-	@ManyToOne//(cascade = CascadeType.REMOVE)
+
+	public Address() {
+	}
+
+	public Address(String street, String number, String city, Profile profile) {
+		this.street = street;
+		this.number = number;
+		this.city = city;
+		this.profile = profile;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "profile_id_fk", referencedColumnName = "profile_id") // (cascade = CascadeType.REMOVE)
 	private Profile profile;
 
 	public Integer getId() {
@@ -60,6 +73,7 @@ public class Address {
 	public void setCity(String city) {
 		this.city = city;
 	}
+
 //
 	public Profile getProfile() {
 		return profile;
@@ -75,6 +89,12 @@ public class Address {
 	}
 
 	@Override
+	public String toString() {
+		return "\nADDRESS \n\tID =" + id + ", \n\tCalle=" + street + ", \n\tNumero = " + number + ", \n\tCiudad = " + city + ", \n\tprofile ="
+				+ profile;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -85,6 +105,5 @@ public class Address {
 		Address other = (Address) obj;
 		return Objects.equals(id, other.id);
 	}
-	
 
 }
