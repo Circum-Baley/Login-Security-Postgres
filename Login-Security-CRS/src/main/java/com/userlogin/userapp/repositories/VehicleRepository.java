@@ -1,11 +1,13 @@
 package com.userlogin.userapp.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.userlogin.userapp.entities.Consumption;
 import com.userlogin.userapp.entities.Vehicle;
 
 @Repository
@@ -16,11 +18,17 @@ public interface VehicleRepository  extends JpaRepository<Vehicle, Integer>{
 	public Optional<Vehicle> findByVehicleIdAndConsumptionId(Integer vehicleId, Integer consumptionId);
 	
 	public Optional<Vehicle>findByPatent(String patent);
+	
 	@Query("SELECT v FROM Vehicle v WHERE v.user.id=?1 AND v.id=?2")
 	public Optional<Vehicle>findByUserIdAndVehicleId(Integer userId,Integer vehicleId);
 
 //	public List<String> findPatent();
 
+	// 
+    @Query("SELECT v FROM Consumption v JOIN FETCH v.vehicle")
+    List<Consumption> findAllWithVehicle();
+
+	
 	
 	
 	

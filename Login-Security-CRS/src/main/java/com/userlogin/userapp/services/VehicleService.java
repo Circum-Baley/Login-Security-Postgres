@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.userlogin.userapp.entities.Consumption;
 import com.userlogin.userapp.entities.User;
 import com.userlogin.userapp.entities.Vehicle;
 import com.userlogin.userapp.repositories.UserRepository;
@@ -29,6 +30,9 @@ public class VehicleService {
 
 	public List<Vehicle> getVehicles() {
 		return (List<Vehicle>) vehicleRepository.findAll();
+	}
+	public List<Consumption> getAllWithVehicle(){
+		return vehicleRepository.findAllWithVehicle();
 	}
 
 	public Vehicle createVehicleUser(Integer userId, Vehicle vehicle) {

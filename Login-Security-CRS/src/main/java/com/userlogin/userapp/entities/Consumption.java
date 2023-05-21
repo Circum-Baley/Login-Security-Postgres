@@ -17,7 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "consumption")
 public class Consumption {
 
@@ -39,7 +42,7 @@ public class Consumption {
 	private String description;
 
 	@ManyToOne
-	@JoinColumn(name = "vehicle_id")
+	@JoinColumn(referencedColumnName = "vehicle_id", name = "vehicle_id_fk")
 	private Vehicle vehicle;
 
 	public Consumption() {

@@ -3,10 +3,12 @@ package com.userlogin.userapp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +22,6 @@ import com.userlogin.userapp.services.UserService;
 
 import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -40,13 +41,22 @@ public class UserController {
 		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
 	}
 
+	@GetMapping("/ListVehicleUser")
+	public ResponseEntity<List<User>> getUserWithMoreThan2Vehicles() {
+		return new ResponseEntity<List<User>>(userService.getUserWithMoreThanTwoVehicles(), HttpStatus.OK);
+	}
+
+	@GetMapping("/listConsumptionUser")
+	public ResponseEntity<List<User>> getUserWithMostConsumption() {
+		return new ResponseEntity<List<User>>(userService.getUserWithMostConsumption(), HttpStatus.OK);
+	}
+
 	@GetMapping
 	// http://localhost:8080/api-user?page=2&size=10
 	public ResponseEntity<Page<User>> getUserPageSize(
 			@RequestParam(required = false, value = "page", defaultValue = "0") int page,
 			@RequestParam(required = false, value = "size", defaultValue = "1000") int size) {
 		return new ResponseEntity<>(userService.getUserPageSize(page, size), HttpStatus.OK);
-
 	}
 
 	@GetMapping("/username")

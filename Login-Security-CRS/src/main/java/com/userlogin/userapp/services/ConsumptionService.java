@@ -1,5 +1,6 @@
 package com.userlogin.userapp.services;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ import com.userlogin.userapp.entities.Consumption;
 import com.userlogin.userapp.entities.Vehicle;
 import com.userlogin.userapp.repositories.ConsumptionRepository;
 import com.userlogin.userapp.repositories.VehicleRepository;
+
+import javassist.NotFoundException;
 
 @Service
 public class ConsumptionService {
@@ -78,15 +81,18 @@ public class ConsumptionService {
 		return consumptions.size();
 	}
 
-	public List<Consumption> getConsumptionByVehicle(Vehicle vehicle) {
-		List<Consumption> consumptions = consumptionRepository.findAll();
-		for (Consumption consumption : consumptions) {
-			if (consumption.getVehicle() == null) {
-				consumptions.add(consumption);
-			}
-		}
-		return consumptions;
+	public List<Consumption> getConsumptionByPatent(String vehiclePatente) {
+		vehicleRepository.findByPatent(vehiclePatente);
+		return consumptionRepository.findByVehiclePatent(vehiclePatente);
 	}
+
+//	public List<Consumption> getConsumptionsByLicensePlate(String licensePlate) {
+//		Vehicle vehicle = vehicleRepository.findByLicensePlate(licensePlate);
+//		if (vehicle == null) {
+//			return Collections.emptyList();
+//		}
+//				return consumptionRepository.findByVehiclePatent(vehiclePatente);
+//	}
 }
 
 //	public Consumption getAddressById(Integer consumptionId) {

@@ -21,9 +21,8 @@ import com.userlogin.userapp.services.UserInRoleService;
 
 
 @Controller
-@RequestMapping("/api-usinro")
+@RequestMapping("/api-usinrole")
 public class UserInRoleController {
-	
 	
 	private static final Logger log = LoggerFactory.getLogger(UserInRoleController.class);
 
@@ -32,6 +31,7 @@ public class UserInRoleController {
 	
 	@Autowired
 	private UserInRoleService userInRoleService;
+	
 	
 	@GetMapping("/{roleName}/users")
 	public ResponseEntity<List<User>> getUsersByRoles(@PathVariable("roleName") String roleName){
@@ -47,11 +47,6 @@ public class UserInRoleController {
 	public ResponseEntity<UserInRole> getUserById(@PathVariable("userInRoileId") Integer userInRoleId){
 		return new ResponseEntity<UserInRole>(userInRoleService.getUserInRoleById(userInRoleId),HttpStatus.OK);
 	}
-	  
-	
-	
-	
 //	@GetMapping
 //	public Response
-
 }

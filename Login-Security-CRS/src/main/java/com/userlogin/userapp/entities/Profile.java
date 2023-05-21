@@ -1,6 +1,7 @@
 package com.userlogin.userapp.entities;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,6 +33,19 @@ public class Profile {
 //	@Temporal(TemporalType.DATE)
 	private Date birthDate;
 
+	@OneToMany
+	private List<Device> devices;
+	
+	
+	
+	public List<Device> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(List<Device> devices) {
+		this.devices = devices;
+	}
+
 	@OneToOne
 	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
 	private User user;
@@ -45,6 +60,7 @@ public class Profile {
 		this.user = user;
 	}
 
+	
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -90,7 +106,6 @@ public class Profile {
 		return Objects.hash(id);
 	}
 
-	
 	@Override
 	public String toString() {
 		return "\nPROFILE :\n\tID = " + id + "\n\tname=" + name + "\n\tlastName=" + lastName + "\n\tbirthDate=" + birthDate

@@ -15,32 +15,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.userlogin.userapp.entities.Consumption;
 import com.userlogin.userapp.entities.Vehicle;
 import com.userlogin.userapp.services.VehicleService;
 
 @RestController
-@RequestMapping("/api-vehicle")//{userId}/vehicles/{vehicleId}")
+@RequestMapping("/api-vehicle") // {userId}/vehicles/{vehicleId}")
 public class VehicleController {
-	
-	
+
 	private static final Logger log = LoggerFactory.getLogger(VehicleController.class);
 
 	@Autowired
 	private VehicleService vehicleService;
+
 //	@GetMapping
 //	public ResponseEntity<Page<User>> getUsers(@RequestParam("page") int page,@RequestParam("size") int size){
 //		return new ResponseEntity<>(userService.getUsers(page,size),HttpStatus.OK);
 //	}
 	@GetMapping("/user/{userId}/vehicle/{vehicleId}")
-	public ResponseEntity<Vehicle> getById(@PathVariable("userId") Integer userId,@PathVariable("vehicleId") Integer vehicleId){
-		return new ResponseEntity<Vehicle>(vehicleService.getByUserIdAndVehicleId(userId,vehicleId),HttpStatus.OK);
+	public ResponseEntity<Vehicle> getById(@PathVariable("userId") Integer userId,
+			@PathVariable("vehicleId") Integer vehicleId) {
+		return new ResponseEntity<Vehicle>(vehicleService.getByUserIdAndVehicleId(userId, vehicleId), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/user/{userId}")
-	public ResponseEntity<Vehicle> createVehicleUser(@PathVariable("userId") Integer userId,@RequestBody Vehicle vehicle){
-		return new ResponseEntity<Vehicle>(vehicleService.createVehicleUser(userId,vehicle),HttpStatus.CREATED);
+	public ResponseEntity<Vehicle> createVehicleUser(@PathVariable("userId") Integer userId,
+			@RequestBody Vehicle vehicle) {
+		return new ResponseEntity<Vehicle>(vehicleService.createVehicleUser(userId, vehicle), HttpStatus.CREATED);
 	}
-	
+
 //	@PostMapping
 //	public ResponseEntity<Vehicle> getById(@PathVariable("userId") Integer userId,@PathVariable)
 //	@GetMapping("/patent/{patent}")
@@ -51,36 +54,31 @@ public class VehicleController {
 //	public ResponseEntity<Vehicle> getVehicleByPatentAndById(@PathVariable("patent") String patent,@PathVariable("vehicleId") Integer vehicleId){
 //		return new ResponseEntity<Vehicle>(vehicleService.getVehicleByPatentAndId(patent, vehicleId),HttpStatus.OK);
 //	}
-	@GetMapping
-	public ResponseEntity<List<Vehicle>> getVehicles(){
-		return new ResponseEntity<List<Vehicle>>(vehicleService.getVehicles(),HttpStatus.OK);
-	}
-	/***
-	 * Devuelve todos los username de todos los registros ya predefinidos*/
-//	@GetMapping("/patent")
-//	public ResponseEntity<List<String>> getUsernames(){
-//		return new ResponseEntity<>(vehicleService.getPatents(),HttpStatus.OK);
+//	@GetMapping//("/all")
+//	public ResponseEntity<List<Vehicle>> getVehicles() {
+//		return new ResponseEntity<List<Vehicle>>(vehicleService.getVehicles(), HttpStatus.OK);
 //	}
-	
-	//////
-	
+
+	@GetMapping
+	public ResponseEntity<List<Consumption>> getAllConsumptionsWithVehicle() {
+		return new ResponseEntity<List<Consumption>>(vehicleService.getAllWithVehicle(),HttpStatus.OK);
+
+	}
+
 	@PostMapping
-	public ResponseEntity<Vehicle> createVehicles(@RequestBody Vehicle vehicle){
+	public ResponseEntity<Vehicle> createVehicles(@RequestBody Vehicle vehicle) {
 //		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //		log.info("Name {}",authentication.getName());
 //		log.info("principa {}",authentication.getPrincipal());
 //		log.info("Credenciales {}",authentication.getCredentials());
 //		log.info("rol {}",authentication.getAuthorities().toString());
-		return new ResponseEntity<Vehicle>(vehicleService.createVehicle(vehicle),HttpStatus.CREATED);
+		return new ResponseEntity<Vehicle>(vehicleService.createVehicle(vehicle), HttpStatus.CREATED);
 	}
-	
-	
+
 	@DeleteMapping("/{patent}")
-	public ResponseEntity<Void> deleteVehicle(@PathVariable("patent") String patent){
+	public ResponseEntity<Void> deleteVehicle(@PathVariable("patent") String patent) {
 		vehicleService.deleteVehicleByPatent(patent);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
-	
 
 }

@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.userlogin.userapp.entities.Consumption;
 import com.userlogin.userapp.entities.Vehicle;
-import com.userlogin.userapp.repositories.VehicleRepository;
 import com.userlogin.userapp.services.ConsumptionService;
 import com.userlogin.userapp.services.VehicleService;
+
+import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/api-consumption")
@@ -28,6 +29,11 @@ public class ConsumptionController {
 	@Autowired
 	private ConsumptionService consumptionService;
 
+
+	@GetMapping
+	public ResponseEntity<List<Consumption>> getConsumptions() {
+		return new ResponseEntity<List<Consumption>>(consumptionService.getConsumptions(), HttpStatus.OK);
+	}
 ////////////////////////////////////////////////////////
 //	@GetMapping("/consumptionChart")
 //	public ViewResolver getViewResolver() {
@@ -45,7 +51,7 @@ public class ConsumptionController {
 	}
 
 	@GetMapping("/vehicle/{vehicleId}/consumption-count")
-	public ResponseEntity<Integer> getConsumptionsByVehicleCount(@PathVariable("vehicleId") Integer vehicleId,
+	public ResponseEntity<Integer> getConsumptionsByVehicle(@PathVariable("vehicleId") Integer vehicleId,
 			@RequestBody Vehicle vehicle) {
 		Consumption consumption = consumptionService.getConsumptionById(vehicleId);
 		if (consumption == null) {
@@ -55,7 +61,31 @@ public class ConsumptionController {
 		int count = consumptionService.getCountConsumptionsByVehicle(vehicle);
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
+
 //----------------------------------------------------
+//	@GetMapping("/vehicle/{vehiclePatente}")
+//	public ResponseEntity<Consumption> getConsumptionsByVehicleCount(@PathVariable String vehiclePatente) {
+//		consumptionService.getConsumptionByPatent(vehiclePatente);
+//		return new ResponseEntity<Consumption>(HttpStatus.OK);
+//	}
+
+	@GetMapping("/vehicle/{vehiclePatent}")
+	public ResponseEntity<List<Consumption>> getVehicleByConsumption(@PathVariable String vehiclePatent) throws IllegalArgumentException, NotFoundException {
+		vehicleService.getVehicleByPatent(vehiclePatent);
+		return new ResponseEntity<List<Consumption>>(consumptionService.getConsumptionByPatent(vehiclePatent),
+				HttpStatus.OK);
+	}
+	/**
+	 * 
+	 * @GetMapping("/{licensePlate}") public ResponseEntity<List<Consumption>>
+	 * getConsumptionsByLicensePlate(@PathVariable String licensePlate) {
+	 * List<Consumption> consumptions =
+	 * consumptionService.getConsumptionsByLicensePlate(licensePlate);
+	 * 
+	 * if (consumptions.isEmpty()) { return ResponseEntity.notFound().build(); }
+	 * else { return ResponseEntity.ok(consumptions); } }
+	 */
+
 //	@GetMapping("/vehicles/{vehicleId}/consumptionCount")
 //	public ResponseEntity<List<Consumption>> getVehicleByCountConsumption(
 //			@PathVariable("vehicleId") Integer vehicleId) {
@@ -84,16 +114,13 @@ public class ConsumptionController {
 //					consumptionCount);
 //			counts.add(count);
 //		}
+
 //		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 ////		return new ResponseEntity<List<VehicleConsumptionCount>>(counts, HttpStatus.OK);
 //	}
 //
 //	// ----------------------------------------------------
 
-	@GetMapping
-	public ResponseEntity<List<Consumption>> getConsumptions() {
-		return new ResponseEntity<List<Consumption>>(consumptionService.getConsumptions(), HttpStatus.OK);
-	}
 
 	@PostMapping("/{userId}/vehicles/{vehicleId}/consumption")
 	public ResponseEntity<Consumption> createConsumption(@PathVariable("userId") Integer userId,

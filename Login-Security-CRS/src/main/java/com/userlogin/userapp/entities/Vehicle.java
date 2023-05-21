@@ -3,20 +3,22 @@ package com.userlogin.userapp.entities;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "vehicle")
 public class Vehicle {
 
@@ -28,20 +30,17 @@ public class Vehicle {
 	@Column(name = "patent")
 	private String patent;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private User user;
 
-	@OneToMany(mappedBy = "vehicle")
-	private List<Consumption> consumptions;
-
-	public List<Consumption> getConsumptions() {
-		return consumptions;
+	public Vehicle() {
 	}
 
-	public void setConsumptions(List<Consumption> consumptions) {
-		this.consumptions = consumptions;
+	public Vehicle(String patent, User user) {
+		this.patent = patent;
+		this.user = user;
 	}
 
 	public User getUser() {
@@ -85,11 +84,4 @@ public class Vehicle {
 		return Objects.equals(id, other.id);
 	}
 
-	public Vehicle() {
-	}
-
-	public Vehicle(String patent, User user) {
-		this.patent = patent;
-		this.user = user;
-	}
 }

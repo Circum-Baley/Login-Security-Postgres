@@ -1,6 +1,6 @@
 package com.userlogin.userapp;
 
-import java.time.Instant;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import com.github.javafaker.Faker;
 import com.userlogin.userapp.entities.Address;
 import com.userlogin.userapp.entities.Consumption;
+import com.userlogin.userapp.entities.Device;
 import com.userlogin.userapp.entities.Profile;
 import com.userlogin.userapp.entities.Role;
 import com.userlogin.userapp.entities.User;
@@ -28,6 +29,7 @@ import com.userlogin.userapp.entities.UserInRole;
 import com.userlogin.userapp.entities.Vehicle;
 import com.userlogin.userapp.repositories.AddressRepository;
 import com.userlogin.userapp.repositories.ConsumptionRepository;
+import com.userlogin.userapp.repositories.DeviceRepository;
 import com.userlogin.userapp.repositories.ProfileRepository;
 import com.userlogin.userapp.repositories.RoleRepository;
 import com.userlogin.userapp.repositories.UserInRoleRepository;
@@ -65,6 +67,9 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 	@Autowired
 	private AddressRepository addressRepository;
 
+	@Autowired
+	private DeviceRepository deviceRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(LoginSecurityCrsApplication.class, args);
 		log.info("Benvenidos мать ублюдок");
@@ -101,7 +106,7 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 			userInRoleRepository.save(userInRole);
 		}
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 50; i++) {
 			List<User> users = userRepository.findAll();
 
 			Random random = new Random();
@@ -113,9 +118,9 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 			vehicleRepository.save(vehicle);
 			log.info("\nID : {}\nPPU : {}\nUser : {}", vehicle.getId(), vehicle.getPatent(), vehicle.getUser());
 		}
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 50; i++) {
 			List<Vehicle> vehicles = vehicleRepository.findAll();
-			
+
 			Random randon = new Random();
 			int randonVehicles = randon.nextInt(vehicles.size());
 
@@ -137,6 +142,7 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 
 			consumption.setVehicle(vehicles.get(randonVehicles));
 			consumptionRepository.save(consumption);
+
 		}
 		for (int i = 0; i < 20; i++) {
 			List<User> users = userRepository.findAll();
@@ -156,6 +162,23 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 			addressRepository.save(address);
 //			log.info("{}{}{}{}{}",address.getId(),address.getStreet(),address.getNumber(),address.getCity(),address.getProfile());
 
+		}
+		for (int i = 0; i < 20; i++) {
+
+//			Device dev=new Device(String name, Stringbrand, modelS, NUmberSerialString, Profile)
+			Device device = new Device();
+			device.setName(faker.app().name());
+			device.setBrand(faker.space().meteorite());
+			device.setModel(faker.aviation().airport());
+			// Definir el rango de fechas
+			LocalDate startDate = LocalDate.of(2020, 1, 1);
+			LocalDate endDate = LocalDate.of(2020, 5, 30);
+			// Convertir LocalDate a Date
+			Date start = Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			Date end = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			device.setDateAcquisition(faker.date().between(start, end));
+			device.setSerialNumber(faker.internet().uuid());
+			deviceRepository.save(device);
 		}
 
 	}

@@ -27,15 +27,24 @@ public class UserService {
 	public Page<User> getUserPageSize(int page, int size) {
 		return userRepository.findAll(PageRequest.of(page, size));
 	}
+
+	public List<User> getUserWithMoreThanTwoVehicles() {
+		return userRepository.findUserWithMoreThanTwoVehicles();
+	}
+
 //	public Page<User> getUserPageSize(int page,int size){
 //		return userRepository.findAll(PageRequest.of(page,size));
 //	}
+	public List<User> getUserWithMostConsumption() {
+		return userRepository.findUserWithMostConsumption();
+	}
 
-	public List<String> getUsername(){
+	public List<String> getUsername() {
 		return userRepository.findUsername();
 	}
-	public Page<String> getUsernamePageSize(int page,int size) {
-		return userRepository.findUsernamePageSize(PageRequest.of(page,size));
+
+	public Page<String> getUsernamePageSize(int page, int size) {
+		return userRepository.findUsernamePageSize(PageRequest.of(page, size));
 	}
 
 	public User getUserById(Integer userId) {
@@ -57,8 +66,9 @@ public class UserService {
 	}
 
 	public User getUserByUsernameAndPassword(String username, String password) {
-		return userRepository.findByUsernameAndPassword(username, password).orElseThrow(
-				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("The User %s dosen't EXISTS", username)));	
+		return userRepository.findByUsernameAndPassword(username, password)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						String.format("The User %s dosen't EXISTS", username)));
 	}
 
 //	@CacheEvict("users")

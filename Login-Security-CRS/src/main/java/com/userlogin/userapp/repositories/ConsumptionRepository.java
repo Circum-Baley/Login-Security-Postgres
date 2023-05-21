@@ -19,9 +19,12 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Intege
 
 	@Query("SELECT c FROM Consumption c WHERE c.vehicle.id=?1 AND c.id=?2")
 	public Optional<Consumption> findByVehicleIdAndConsumptionId(Integer vehicleId, Integer consumptionId);
+
 //
 //	public Optional<Consumption> findByNumber(Long number);
 //	
+	List<Consumption> findByVehiclePatent(String vehiclePatent);
+
 //
 //	public Optional<Consumption> findById(Long consumptionId);
 //
