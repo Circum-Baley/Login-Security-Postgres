@@ -1,11 +1,11 @@
 package com.userlogin.userapp;
 
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
@@ -38,12 +39,13 @@ import com.userlogin.userapp.repositories.VehicleRepository;
 
 @SpringBootApplication
 @ComponentScan("com.userlogin.userapp") // to scan packages mentioned
-										// /Login-Security-CRS/src/main/java/com/userlogin/userApp/LoginSecurityCrsApplication.java
+@Configuration									// /Login-Security-CRS/src/main/java/com/userlogin/userApp/LoginSecurityCrsApplication.java
 @EnableJpaRepositories("com.userlogin.userapp.repositories")
 public class LoginSecurityCrsApplication implements ApplicationRunner {
 
 	private final static Logger log = LoggerFactory.getLogger(LoginSecurityCrsApplication.class);
 
+	Random random = new Random();
 	@Autowired
 	private Faker faker;
 
@@ -73,14 +75,22 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(LoginSecurityCrsApplication.class, args);
 		log.info("Benvenidos мать ублюдок");
+		UUID uuid=UUID.randomUUID();
+		log.info("{}",uuid.toString());
 	}
 
 	/*
 	 * LandingPage
 	 */
+	
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("forward:/index");
+		registry.addViewController("/").setViewName("forward:/index.xhtml");
 	}
+	
+//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		registry.addResourceHandler("/**").addResourceLocations("classpath:/src/main/resources/static/template/")
+//				.setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic());
+//	}
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -116,7 +126,6 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 					users.get(randomIndex));
 
 			vehicleRepository.save(vehicle);
-			log.info("\nID : {}\nPPU : {}\nUser : {}", vehicle.getId(), vehicle.getPatent(), vehicle.getUser());
 		}
 		for (int i = 0; i < 50; i++) {
 			List<Vehicle> vehicles = vehicleRepository.findAll();
@@ -147,8 +156,6 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 		for (int i = 0; i < 20; i++) {
 			List<User> users = userRepository.findAll();
 
-			Random random = new Random();
-
 			int randomUser = random.nextInt(users.size());
 			Profile profile = new Profile(faker.pokemon().name(), faker.name().lastName(), faker.date().birthday(),
 					users.get(randomUser));
@@ -164,8 +171,8 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 
 		}
 		for (int i = 0; i < 20; i++) {
-
-//			Device dev=new Device(String name, Stringbrand, modelS, NUmberSerialString, Profile)
+			List<Profile> profiles = profileRepository.findAll();
+			int randomProfile = random.nextInt(profiles.size());
 			Device device = new Device();
 			device.setName(faker.app().name());
 			device.setBrand(faker.space().meteorite());
@@ -178,6 +185,7 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 			Date end = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			device.setDateAcquisition(faker.date().between(start, end));
 			device.setSerialNumber(faker.internet().uuid());
+			device.setProfile(profiles.get(randomProfile));
 			deviceRepository.save(device);
 		}
 

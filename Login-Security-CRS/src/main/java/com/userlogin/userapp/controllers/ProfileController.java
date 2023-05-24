@@ -39,6 +39,7 @@ public class ProfileController {
 	public ResponseEntity<List<Profile>> getProfile() {
 		return new ResponseEntity<List<Profile>>(profileService.getProfile(), HttpStatus.OK);
 	}
+	
 //	@DeleteMapping("/{userId}")
 //	public ResponseEntity<void> deleteProfile(@PathVariable("userId") Integer userId){
 //		Optinal<Profile> result=profileService.f

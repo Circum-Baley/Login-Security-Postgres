@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Profile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="profile_id")
+	@Column(name = "profile_id")
 	private Integer id;
 
 	@Column(name = "name")
@@ -33,22 +33,20 @@ public class Profile {
 //	@Temporal(TemporalType.DATE)
 	private Date birthDate;
 
+	@OneToOne
+	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
+	private User user;
+
 	@OneToMany
 	private List<Device> devices;
-	
-	
-	
-	public List<Device> getDevices() {
-		return devices;
-	}
+
+//	public List<Device> getDevices() {
+//		return devices;
+//	}
 
 	public void setDevices(List<Device> devices) {
 		this.devices = devices;
 	}
-
-	@OneToOne
-	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
-	private User user;
 
 	public Profile() {
 	}
@@ -60,7 +58,6 @@ public class Profile {
 		this.user = user;
 	}
 
-	
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -108,8 +105,8 @@ public class Profile {
 
 	@Override
 	public String toString() {
-		return "\nPROFILE :\n\tID = " + id + "\n\tname=" + name + "\n\tlastName=" + lastName + "\n\tbirthDate=" + birthDate
-				+ "\n\t\tuser :" + getUser();
+		return "\nPROFILE :\n\tID = " + id + "\n\tname=" + name + "\n\tlastName=" + lastName + "\n\tbirthDate="
+				+ birthDate + "\n\t\tuser :" + "getUser()";
 	}
 
 	@Override

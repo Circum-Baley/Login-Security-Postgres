@@ -26,6 +26,7 @@ public class ProfileService {
 	public List<Profile> getProfile(){
 		return profileRepository.findAll();
 	}
+	
 	public Profile createProfileS(Integer userId, Profile profile) {
 		Optional<User> result = userRepository.findById(userId);
 		if (result.isPresent()) {

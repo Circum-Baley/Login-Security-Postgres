@@ -19,7 +19,7 @@ public class Device {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "device_id")
-	private Long id;
+	private Integer id;
 
 	@Column(name = "name")
 	private String name;
@@ -37,34 +37,34 @@ public class Device {
 	private Date dateAcquisition;
 
 	@ManyToOne
-	@JoinColumn(name = "profile_id_fk",referencedColumnName = "profile_id")
+	@JoinColumn(name = "profile_id_fk", referencedColumnName = "profile_id")
 	private Profile profile;
-
-	// Constructores, getters y setters
 
 	public Device() {
 	}
 
-	
-
-	public Device(Long id, String name, String brand, String model, String serialNumber, Date dateAcquisition,
-			Profile profile) {
+	public Device(Integer id, String name, String brand, String model, String serialNumber, Date dateAcquisition) {
 		this.id = id;
 		this.name = name;
 		this.brand = brand;
 		this.model = model;
 		this.serialNumber = serialNumber;
 		this.dateAcquisition = dateAcquisition;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
 
-
-
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -98,14 +98,6 @@ public class Device {
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
-	}
-
-	public Profile getProfile() {
-		return profile;
-	}
-
-	public void setProfile(Profile profile) {
-		this.profile = profile;
 	}
 
 	public Date getDateAcquisition() {

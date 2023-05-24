@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.userlogin.userapp.entities.Device;
+import com.userlogin.userapp.entities.Profile;
 import com.userlogin.userapp.services.DeviceService;
+import com.userlogin.userapp.services.ProfileService;
 
 @RestController
 @RequestMapping("/api-device")
@@ -24,14 +26,29 @@ public class DeviceController {
 	@Autowired
 	private DeviceService deviceService;
 
+	@Autowired
+	private ProfileService profileService;
+
+	@PostMapping("/createDeviceProfile/{profileId}")
+	public ResponseEntity<Device> createDeviceProfile(@PathVariable("profileId") Integer profileId,
+			@RequestBody Device device) {
+		Device deviceCreateProfile = deviceService.createDeviceProfile(profileId, device);
+		return new ResponseEntity<Device>(deviceCreateProfile, HttpStatus.CREATED);
+	}
+
 	@PostMapping
 	public ResponseEntity<Device> createDevice(@RequestBody Device device) {
 		return new ResponseEntity<Device>(deviceService.createDevice(device), HttpStatus.CREATED);
 	}
 
-	
+	@GetMapping("/{deviceId}")
+	public ResponseEntity<Device> getDeviceById(@PathVariable("deviceId") Integer deviceId) {
+		return new ResponseEntity<Device>(deviceService.getDeviceById(deviceId), HttpStatus.OK);
+	}
+
 	@GetMapping("/list")
 	public ResponseEntity<List<Device>> getDevicesList() {
+
 		return new ResponseEntity<List<Device>>(deviceService.getDevices(), HttpStatus.OK);
 	}
 
@@ -41,7 +58,9 @@ public class DeviceController {
 	}
 
 	@DeleteMapping("/{deviceId}")
-	public ResponseEntity<Void> deleteDevice(@PathVariable("Integer") Integer deviceId) {
+	public ResponseEntity<Void> deleteDevice(@PathVariable("devideId") Integer deviceId) {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
+
+
 }

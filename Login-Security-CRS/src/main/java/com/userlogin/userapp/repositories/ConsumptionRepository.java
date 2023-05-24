@@ -25,6 +25,7 @@ public interface ConsumptionRepository extends JpaRepository<Consumption, Intege
 //	
 	List<Consumption> findByVehiclePatent(String vehiclePatent);
 
+	List<Consumption> findByVehicle(Vehicle vehicle);
 //
 //	public Optional<Consumption> findById(Long consumptionId);
 //

@@ -38,6 +38,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT c.vehicle.user FROM Consumption c GROUP BY c.vehicle.user ORDER BY COUNT(c) DESC")
 	public List<User> findUserWithMostConsumption();
 
-	@Query("SELECT u FROM User u WHERE SIZE(u.vehicles) > 2 ORDER BY SIZE(u.vehicles) DESC")
-	public List<User> findUserWithMoreThanTwoVehicles();
+	/**
+	 * Busca y devuelve una lista de usuarios que tienen más de tres vehículos.
+	 * Los usuarios se ordenan por la cantidad de vehículos en orden descendente.
+	 *
+	 * @return una lista de usuarios con más de tres vehículos, ordenados por la cantidad de vehículos en orden descendente
+	 */
+	@Query("SELECT u FROM User u WHERE SIZE(u.vehicles) > 3 ORDER BY SIZE(u.vehicles) DESC")
+	public List<User> findUserWithMoreThanThreeVehicles();
 }

@@ -61,7 +61,5 @@ public class Role {
 			return false;
 		Role other = (Role) obj;
 		return Objects.equals(id, other.id);
-	}
-	
-	
+	}	
 }

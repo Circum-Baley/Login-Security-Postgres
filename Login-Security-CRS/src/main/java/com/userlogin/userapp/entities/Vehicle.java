@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -35,6 +37,9 @@ public class Vehicle {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private User user;
 
+	@OneToMany(mappedBy = "vehicle")
+    private List<Consumption> consumptions;
+
 	public Vehicle() {
 	}
 
@@ -43,9 +48,7 @@ public class Vehicle {
 		this.user = user;
 	}
 
-	public User getUser() {
-		return user;
-	}
+
 
 	public void setUser(User user) {
 		this.user = user;

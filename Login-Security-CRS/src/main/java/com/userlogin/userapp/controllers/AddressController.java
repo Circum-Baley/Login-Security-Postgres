@@ -45,7 +45,7 @@ public class AddressController {
 
 	@GetMapping
 	public ResponseEntity<List<Address>> getAddressList() {
-		return new ResponseEntity<List<Address>>(addressService.getAddressList(),HttpStatus.OK);
+		return new ResponseEntity<List<Address>>(addressService.getAddressList(), HttpStatus.OK);
 	}
 
 }

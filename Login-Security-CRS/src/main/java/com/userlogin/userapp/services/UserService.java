@@ -28,8 +28,8 @@ public class UserService {
 		return userRepository.findAll(PageRequest.of(page, size));
 	}
 
-	public List<User> getUserWithMoreThanTwoVehicles() {
-		return userRepository.findUserWithMoreThanTwoVehicles();
+	public List<User> getUserWithMoreThanThreeVehicles() {
+		return userRepository.findUserWithMoreThanThreeVehicles();
 	}
 
 //	public Page<User> getUserPageSize(int page,int size){

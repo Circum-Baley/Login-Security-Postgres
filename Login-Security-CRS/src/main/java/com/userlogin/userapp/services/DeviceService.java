@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.userlogin.userapp.entities.Device;
+import com.userlogin.userapp.entities.Profile;
 import com.userlogin.userapp.repositories.DeviceRepository;
+import com.userlogin.userapp.repositories.ProfileRepository;
 
 @Service
 public class DeviceService {
 
+	@Autowired
+	private ProfileRepository profileRepository;
 	@Autowired
 	private DeviceRepository deviceRepository;
 
@@ -26,6 +30,17 @@ public class DeviceService {
 		return deviceRepository.save(device);
 	}
 
+	public Device createDeviceProfile(Integer profileId, Device device) {
+		Optional<Profile> resultProfileId = profileRepository.findById(profileId);
+		if (resultProfileId.isPresent()) {
+			device.setProfile(resultProfileId.get());
+			return deviceRepository.save(device);
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					String.format("Profile ID ; {} Dosen't existes ", profileId));
+		}
+	}
+
 	/**
 	 * Devuelve todos los dispositivos (Devices) registrados en el sistema.
 	 * 
@@ -36,7 +51,23 @@ public class DeviceService {
 	}
 
 	/**
+	 * Obtiene el dispositivo (Device) a través del ID (deviceId) proporcionado como
+	 * parámetro de entrada.
+	 * 
+	 * @param deviceId El ID del dispositivo que se desea obtener.
+	 * @return La información del dispositivo (Device) correspondiente al ID
+	 *         especificado.
+	 * @throws ResponseStatusException Si no se encuentra el dispositivo con el ID
+	 *                                 especificado.
+	 */
+	public Device getDeviceById(Integer deviceId) {
+		return deviceRepository.findById(deviceId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+				String.format("Device with ID %d not found", deviceId)));
+	}
+
+	/**
 	 * Actualiza un dispositivo (Device) existente.
+	 * 
 	 * @param deviceId El ID del dispositivo a actualizar.
 	 * @param device   El objeto Device con los datos actualizados.
 	 * @return El dispositivo actualizado.
@@ -56,29 +87,16 @@ public class DeviceService {
 	 * @param deviceId
 	 */
 	public void deleteDeviceById(Integer deviceId) {
-		Optional<Device> dvcId = deviceRepository.findById(deviceId);
-		if (dvcId.isPresent()) {
-			deviceRepository.delete(dvcId.get());
+		Optional<Device> devideId = deviceRepository.findById(deviceId);
+		if (devideId.isPresent()) {
+			deviceRepository.delete(devideId.get());
 		} else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
 					String.format("Device ID : %d Dosen't exists", deviceId));
 		}
 	}
 
-	/**
-	 * Obtiene el dispositivo (Device) a través del ID (deviceId) proporcionado como
-	 * parámetro de entrada.
-	 * 
-	 * @param deviceId El ID del dispositivo que se desea obtener.
-	 * @return La información del dispositivo (Device) correspondiente al ID
-	 *         especificado.
-	 * @throws ResponseStatusException Si no se encuentra el dispositivo con el ID
-	 *                                 especificado.
-	 */
-	public Device getDeviceById(Integer deviceId) {
-		return deviceRepository.findById(deviceId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-				String.format("Device with ID %d not found", deviceId)));
-	}
+
 
 //	public void deleteUserByUsername(String username) {
 //	User user = getUserByUsername(username);

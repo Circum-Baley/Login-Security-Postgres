@@ -41,9 +41,10 @@ public class UserController {
 		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
 	}
 
-	@GetMapping("/ListVehicleUser")
-	public ResponseEntity<List<User>> getUserWithMoreThan2Vehicles() {
-		return new ResponseEntity<List<User>>(userService.getUserWithMoreThanTwoVehicles(), HttpStatus.OK);
+	@GetMapping("/listMore3VehicleUser")
+	public ResponseEntity<List<User>> getUserWithMoreThanThreeVehicles() {
+		List<User> userList = userService.getUserWithMoreThanThreeVehicles();
+		return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
 	}
 
 	@GetMapping("/listConsumptionUser")
@@ -52,8 +53,7 @@ public class UserController {
 	}
 
 	@GetMapping
-	// http://localhost:8080/api-user?page=2&size=10
-	public ResponseEntity<Page<User>> getUserPageSize(
+	public ResponseEntity<Page<User>> getUserPageSize( // http://localhost:8080/api-user?page=2&size=10
 			@RequestParam(required = false, value = "page", defaultValue = "0") int page,
 			@RequestParam(required = false, value = "size", defaultValue = "1000") int size) {
 		return new ResponseEntity<>(userService.getUserPageSize(page, size), HttpStatus.OK);
