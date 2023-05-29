@@ -49,6 +49,7 @@ public class AddressController {
 	}
 
 }
+
 /**
  * @GetMapping public ResponseEntity<List<Role>> getRoles(){ return new
  *             ResponseEntity<List<Role>>(roleService.getRole(),HttpStatus.OK);

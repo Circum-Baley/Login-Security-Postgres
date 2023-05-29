@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,12 +38,12 @@ public class Profile {
 	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
 	private User user;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.DETACH)
 	private List<Device> devices;
 
-//	public List<Device> getDevices() {
-//		return devices;
-//	}
+	public List<Device> getDevices() {
+		return devices;
+	}
 
 	public void setDevices(List<Device> devices) {
 		this.devices = devices;

@@ -39,7 +39,7 @@ import com.userlogin.userapp.repositories.VehicleRepository;
 
 @SpringBootApplication
 @ComponentScan("com.userlogin.userapp") // to scan packages mentioned
-@Configuration									// /Login-Security-CRS/src/main/java/com/userlogin/userApp/LoginSecurityCrsApplication.java
+@Configuration // /Login-Security-CRS/src/main/java/com/userlogin/userApp/LoginSecurityCrsApplication.java
 @EnableJpaRepositories("com.userlogin.userapp.repositories")
 public class LoginSecurityCrsApplication implements ApplicationRunner {
 
@@ -75,18 +75,20 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(LoginSecurityCrsApplication.class, args);
 		log.info("Benvenidos мать ублюдок");
-		UUID uuid=UUID.randomUUID();
-		log.info("{}",uuid.toString());
+		UUID uuid = UUID.randomUUID();
+		log.info("{}", uuid.toString());
 	}
 
 	/*
 	 * LandingPage
 	 */
-	
+
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("forward:/index.xhtml");
+		registry.addViewController("/api-vehicle").setViewName("redirect:/apiVehicle.html");
+
 	}
-	
+
 //	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //		registry.addResourceHandler("/**").addResourceLocations("classpath:/src/main/resources/static/template/")
 //				.setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic());

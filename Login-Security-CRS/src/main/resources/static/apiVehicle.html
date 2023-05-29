@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Título de tu página</title>
+    <style>
+        /* Estilos CSS aquí */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Título de tu página</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="">Acerca de</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </nav>
+    
+    <section>
+        <h2>Datos de la API</h2>
+        <table id="deviceTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Número de serie</th>
+                    <th>Fecha de adquisición</th>
+                    <br>
+                    <th>Perfil</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los datos se agregarán dinámicamente aquí utilizando JavaScript -->
+            </tbody>
+        </table>
+    </section>
+    
+    <footer>
+        <p>Derechos de autor &copy; 2023. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Hacer una solicitud AJAX al endpoint /api-device/list
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8080/api-device/list', true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var deviceList = JSON.parse(xhr.responseText);
+                var tbody = document.querySelector('#deviceTable tbody');
+                
+                deviceList.forEach(function(device) {
+                    var row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${device.id}</td>
+                        <td>${device.name}</td>
+                        <td>${device.brand}</td>
+                        <td>${device.model}</td>
+                        <td>${device.serialNumber}</td>
+                        <td>${device.dateAcquisition}</td>
+                        <td>${device.profile.name}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        };
+        xhr.send();
+    </script>
+</body>
+</html>
+     

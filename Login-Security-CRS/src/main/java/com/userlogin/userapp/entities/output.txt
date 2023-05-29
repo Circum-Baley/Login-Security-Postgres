@@ -1,0 +1,803 @@
+package com.userlogin.userapp.entities;
+
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "address")
+public class Address {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "address_id")
+	private Integer id;
+
+	@Column(name = "street")
+	private String street;
+
+	@Column(name = "number")
+	private String number;
+
+	@Column(name = "city")
+	private String city;
+
+	public Address() {
+	}
+
+	public Address(String street, String number, String city, Profile profile) {
+		this.street = street;
+		this.number = number;
+		this.city = city;
+		this.profile = profile;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "profile_id_fk", referencedColumnName = "profile_id") // (cascade = CascadeType.REMOVE)
+	private Profile profile;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+//
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public String toString() {
+		return "\nADDRESS \n\tID =" + id + ", \n\tCalle=" + street + ", \n\tNumero = " + number + ", \n\tCiudad = " + city + ", \n\tprofile ="
+				+ profile;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Address other = (Address) obj;
+		return Objects.equals(id, other.id);
+	}
+
+}
+package com.userlogin.userapp.entities;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@Table(name = "consumption")
+public class Consumption {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "consumption_id")
+	private Integer id;
+
+	@Column(name = "amount")
+	private Double amount;
+
+	@Column(name = "number")
+	private long number;
+
+	@Column(name = "date_uploaded")
+	private Date date;
+
+	@Column(name = "description")
+	private String description;
+
+	@ManyToOne
+	@JoinColumn(referencedColumnName = "vehicle_id", name = "vehicle_id_fk")
+	private Vehicle vehicle;
+
+	public Consumption() {
+	}
+
+	public Consumption(Double amount, long number, Date date, String description, Vehicle vehicle) {
+		this.amount = amount;
+		this.number = number;
+		this.date = date;
+		this.description = description;
+		this.vehicle = vehicle;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public long getNumber() {
+		return number;
+	}
+
+	public void setNumber(long number) {
+		this.number = number;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Consumption other = (Consumption) obj;
+		return Objects.equals(id, other.id);
+	}
+}package com.userlogin.userapp.entities;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "device")
+public class Device {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "device_id")
+	private Integer id;
+
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "brand")
+	private String brand;
+
+	@Column(name = "model")
+	private String model;
+
+	@Column(name = "serialNumber")
+	private String serialNumber;
+
+	@Column(name = "dateAcquisition")
+	private Date dateAcquisition;
+
+	@ManyToOne
+	@JoinColumn(name = "profile_id_fk", referencedColumnName = "profile_id")
+	private Profile profile;
+
+	public Device() {
+	}
+
+	public Device(Integer id, String name, String brand, String model, String serialNumber, Date dateAcquisition) {
+		this.id = id;
+		this.name = name;
+		this.brand = brand;
+		this.model = model;
+		this.serialNumber = serialNumber;
+		this.dateAcquisition = dateAcquisition;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public Date getDateAcquisition() {
+		return dateAcquisition;
+	}
+
+	public void setDateAcquisition(Date dateAcquisition) {
+		this.dateAcquisition = dateAcquisition;
+	}
+
+	@Override
+	public String toString() {
+		return "Device [id=" + id + ", name=" + name + ", brand=" + brand + ", model=" + model + ", serialNumber="
+				+ serialNumber + ", dateAcquisition=" + dateAcquisition + ", profile=" + profile + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Device other = (Device) obj;
+		return Objects.equals(id, other.id);
+	}
+
+}
+package com.userlogin.userapp.entities;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "profile")
+public class Profile {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "profile_id")
+	private Integer id;
+
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "lastName")
+	private String lastName;
+
+	@Column(name = "birthDate")
+//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//	@Temporal(TemporalType.DATE)
+	private Date birthDate;
+
+	@OneToOne
+	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
+	private User user;
+
+	@OneToMany(cascade = CascadeType.DETACH)
+	private List<Device> devices;
+
+	public List<Device> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(List<Device> devices) {
+		this.devices = devices;
+	}
+
+	public Profile() {
+	}
+
+	public Profile(String name, String lastName, Date birthDate, User user) {
+		this.name = name;
+		this.lastName = lastName;
+		this.birthDate = birthDate;
+		this.user = user;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public String toString() {
+		return "\nPROFILE :\n\tID = " + id + "\n\tname=" + name + "\n\tlastName=" + lastName + "\n\tbirthDate="
+				+ birthDate + "\n\t\tuser :" + "getUser()";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Profile other = (Profile) obj;
+		return Objects.equals(id, other.id);
+	}
+
+}
+package com.userlogin.userapp.entities;
+
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "role")
+public class Role {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "role_id")
+	private Integer id;
+	
+	@Column(name = "name")
+	private String name;
+
+
+	
+	public Role( String name) {
+		this.name = name;
+	}
+	
+	public Role() {
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Role other = (Role) obj;
+		return Objects.equals(id, other.id);
+	}	
+}
+package com.userlogin.userapp.entities;
+
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "user_in_role")
+public class UserInRole {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Integer id;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id_fk",referencedColumnName = "user_id")
+	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "role_id_fk",referencedColumnName = "role_id")
+	private Role role;
+
+	public UserInRole() {
+		
+	}
+	public UserInRole(User user, Role role) {
+		this.user = user;
+		this.role = role;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserInRole other = (UserInRole) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	
+	
+	
+	
+	
+}
+package com.userlogin.userapp.entities;
+
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Integer id;
+
+	@Column(name = "username")
+	private String username;
+
+	@Column(name = "password")
+	private String password;
+
+	@OneToMany(mappedBy = "user")
+	private List<Vehicle> vehicles;
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "\n\tID = " + id + "\n\tUsername = " + username + "\n\tPassword = " + password;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return Objects.equals(id, other.id);
+	}
+
+}
+package com.userlogin.userapp.entities;
+
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@Table(name = "vehicle")
+public class Vehicle {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "vehicle_id")
+	private Integer id;
+
+	@Column(name = "patent")
+	private String patent;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private User user;
+
+	@OneToMany(mappedBy = "vehicle")
+    private List<Consumption> consumptions;
+
+	public Vehicle() {
+	}
+
+	public Vehicle(String patent, User user) {
+		this.patent = patent;
+		this.user = user;
+	}
+
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getPatent() {
+		return patent;
+	}
+
+	public void setPatent(String patent) {
+		this.patent = patent;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vehicle other = (Vehicle) obj;
+		return Objects.equals(id, other.id);
+	}
+
+}

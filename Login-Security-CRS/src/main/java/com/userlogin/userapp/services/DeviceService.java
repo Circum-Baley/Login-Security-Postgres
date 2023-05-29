@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.userlogin.userapp.entities.Device;
@@ -82,10 +83,6 @@ public class DeviceService {
 		}
 	}
 
-	/**
-	 * 
-	 * @param deviceId
-	 */
 	public void deleteDeviceById(Integer deviceId) {
 		Optional<Device> devideId = deviceRepository.findById(deviceId);
 		if (devideId.isPresent()) {
@@ -96,56 +93,66 @@ public class DeviceService {
 		}
 	}
 
-
-
-//	public void deleteUserByUsername(String username) {
-//	User user = getUserByUsername(username);
-//	userRepository.delete(user);
-//}
-//	public User getUserById(Integer userId) {
-//	return userRepository.findById(userId).orElseThrow(
-//			() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user %d not found", userId)));
-//}
+	/**
+	 * 
+	 * @param deviceId
+	 * @param profileId
+	 * @return
+	 */
+	public Device unlinkDeviceFromProfile(Integer deviceId, Integer profileId) {
+		Optional<Profile> resultProfile = profileRepository.findById(profileId);
+		Optional<Device> resultDevice = deviceRepository.findById(deviceId);
+		if (resultDevice.isPresent() && resultProfile.isPresent()) {
+			Profile profile = resultProfile.get();
+			Device device = resultDevice.get();
+			if (profile.getId().equals(device.getProfile().getId())) {
+				device.setProfile(null);
+				return deviceRepository.save(device);
+			} else {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("%d %d ", deviceId, profileId));
+			}
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("%d %d", deviceId, profileId));
+		}
+	}
 }
 
-//	@Autowired
-//	private UserRepository userRepository;
-//
-//	// se realizo para atraer datos sin indexar, versus el metodo siguiente de abajo
-//	public List<User> getUsers() {
-//		return userRepository.findAll();
-//	}
-//
-//	public Page<Object> getObjectPageSize(int page, int size) {
-//		return objectRepository.findAll(PageRequest.of(page, size));
-//	}
+//public Device updateDevice(Integer deviceId, Device device) {
+//Optional<Device> result = deviceRepository.findById(deviceId);
+//if (result.isPresent()) {
+//	return deviceRepository.save(device);
+//} else {
+//	throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+//			String.format("Device ID : %d Dosen't Exists", deviceId));
+//}
+//}	
 
-//	public List<String> getUsername(){
-//		return userRepository.findUsername();
-//	}
-//	public Page<String> getUsernamePageSize(int page,int size) {
-//		return userRepository.findUsernamePageSize(PageRequest.of(page,size));
-//	}
-//
-
-//
-//	public User getUserByUsername(String username) {
-//		return userRepository.findByUsername(username)
-//				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-//						String.format("user %d not foundeichon", username)));
-//	}
-//
-//	public User getUserByUsernameAndId(String username, Integer userId) {
-//		return userRepository.findByUsernameAndId(username, userId)
-//				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-//						String.format("user %d , %d ", username, userId)));
+//}
+//@Transactional
+//public void unlinkDeviceByProfile(Integer profileId) {
+//	Optional<Profile> resultadoPro = profileRepository.findById(profileId);
+//	if (resultadoPro.isPresent()) {
+//		Profile profile = resultadoPro.get();
+//		for (Device device : profile.getDevices()) {
+//			device.setProfile(null);
+//		}
+//		deviceRepository.deleteDeviceByProfileId(profile.getId());
+//	} else {
+//		throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+//				String.format("Profile ID : %d Dosen't exists", profileId));
 //
 //	}
-//
-//	public User getUserByUsernameAndPassword(String username, String password) {
-//		return userRepository.findByUsernameAndPassword(username, password).orElseThrow(
-//				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("The User %s dosen't EXISTS", username)));	
-//	}
+//}
+//--------------------
+//public void deleteProfileAndAddress(Integer addressId) {
+//Optional<Address> resultat = addressRepository.findById(addressId);
+//if(resultat.isPresent()) {
+//	addressRepository.findById(addressId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Address %d Profile Not Found!"));
+//	addressRepository.deleteById(addressId);
+//}else {
+//	throw new ResponseStatusException(HttpStatus.OK,"Address Successfully Removed !");
+//}
+//}
 //
 ////	@CacheEvict("users")
 //	public void deleteUserByUsername(String username) {
