@@ -76,7 +76,7 @@ public class VehicleService {
 
 	public Vehicle getVehicleById(Integer vehicleId) {
 		return vehicleRepository.findById(vehicleId).orElseThrow(
-				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user %d not found", vehicleId)));
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Vehicle %d not found", vehicleId)));
 	}
 
 	public Vehicle getVehicleByPatent(String patent) {

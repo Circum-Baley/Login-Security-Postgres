@@ -22,7 +22,7 @@ import com.userlogin.userapp.entities.Role;
 import com.userlogin.userapp.services.RoleService;
 
 @RestController
-@RequestMapping("/api-rol")
+@RequestMapping("/api-role")
 public class RoleController {
 
 	@Autowired
@@ -30,7 +30,7 @@ public class RoleController {
 	
 	private static final Logger log = LoggerFactory.getLogger(RoleController.class);
 	
-	@GetMapping
+	@GetMapping("/list")
 	public ResponseEntity<List<Role>> getRoles(){
 		//Obtencion de informacion acerca del usuaario que ingreso al ENDPOINT
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

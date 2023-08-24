@@ -19,7 +19,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/listProfile.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -82,6 +82,7 @@
 					API-VEHICLE</a></li>
 		</ul>
 	</nav>
+	<h1 class="ml-auto mr-auto">Profile</h1>
 	<div class="row">
 		<div
 			class="col-lg-10 col-md-10 table table-striped table-bordered ml-auto mr-auto py-5">
@@ -90,15 +91,18 @@
 				<table
 					class='mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
 
-					<thead  class="bg-gray-900">
+					<thead class="bg-gray-900">
 						<tr>
 							<th style="color: white;" class="text-center"># ID</th>
-							<th style="color: white;">Username</th>
-							<th style="color: white;">Password</th>
-							<th style="color: white;" class="text-center">Patente(s)</th>
+							<th style="color: white;">Nombre</th>
+							<th style="color: white;">Apellido</th>
+							<th style="color: white;" class="text-center">Fecha
+								Nacimiento</th>
+							<th style="color: white;">Dispositivo(s)</th>
+							<th style="color: white;" class="text-center">Usuarios</th>
 						</tr>
 					</thead>
-					<tbody id="tabla-users-list">
+					<tbody id="table-profiles-list">
 
 					</tbody>
 				</table>
@@ -106,25 +110,7 @@
 		</div>
 	</div>
 
-	<section class="my-4">
-		<div class="container">
-			<h2 class="mb-4">Datos de la API</h2>
-			<table class="table table-striped table-bordered">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">ID</th>
-						<th>Username</th>
-						<th>Password</th>
-						<th>Vehiculo(s) a cargo</th>
 
-					</tr>
-				</thead>
-				<tbody id="tabla-users-list">
-					<!-- Los datos de dispositivos se agregarán aquí mediante JavaScript -->
-				</tbody>
-			</table>
-		</div>
-	</section>
 
 	<footer class="bg-light text-center py-3 mt-5">
 		<p>@Cirbal - Todos los derechos reservados.</p>

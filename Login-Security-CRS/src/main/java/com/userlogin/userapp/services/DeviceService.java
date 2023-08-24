@@ -51,6 +51,11 @@ public class DeviceService {
 		return (List<Device>) deviceRepository.findAll();
 	}
 
+	@Transactional
+	public List<Device> getDeviceProfileUser() {
+		return (List<Device>)deviceRepository.findAllDevicesWithProfilesAndUsers();
+	}
+
 	/**
 	 * Obtiene el dispositivo (Device) a través del ID (deviceId) proporcionado como
 	 * parámetro de entrada.

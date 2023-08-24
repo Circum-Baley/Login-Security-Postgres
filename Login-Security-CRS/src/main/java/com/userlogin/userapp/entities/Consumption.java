@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -43,6 +44,7 @@ public class Consumption {
 
 	@ManyToOne
 	@JoinColumn(referencedColumnName = "vehicle_id", name = "vehicle_id_fk")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Vehicle vehicle;
 
 	public Consumption() {

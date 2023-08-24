@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,16 +39,26 @@ public class DeviceController {
 		return new ResponseEntity<Device>(deviceService.getDeviceById(deviceId), HttpStatus.OK);
 	}
 
-	@GetMapping
+	@GetMapping("/list")
 	public ResponseEntity<List<Device>> getDevicesList() {
 		return new ResponseEntity<List<Device>>(deviceService.getDevices(), HttpStatus.OK);
+	}
+	@GetMapping("/listar")
+	public ResponseEntity<List<Device>>getDeviceProfileAndUser(){
+		return new ResponseEntity<List<Device>>(deviceService.getDeviceProfileUser() ,HttpStatus.OK);
+	}
+
+	@GetMapping
+	public String listarPersonas(Model model) {
+		List<Device> devices = deviceService.getDevices();
+		model.addAttribute("device", devices);
+		return "index";
 	}
 
 	@PutMapping("/device/{deviceId}/{profileId}")
 	public ResponseEntity<Device> unlinkDeviceProfile(@PathVariable("deviceId") Integer deviceId,
 			@PathVariable("profileId") Integer profileId) {
-		return new ResponseEntity<Device>(deviceService.unlinkDeviceFromProfile(deviceId, profileId),
-				HttpStatus.OK);
+		return new ResponseEntity<Device>(deviceService.unlinkDeviceFromProfile(deviceId, profileId), HttpStatus.OK);
 	}
 
 	@PutMapping("/{deviceId}")

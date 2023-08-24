@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -27,8 +29,17 @@ public class User {
 	private String password;
 
 	@OneToMany(mappedBy = "user")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<Vehicle> vehicles;
-	
+
+	public List<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(List<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -58,8 +69,6 @@ public class User {
 		return Objects.hash(id);
 	}
 
-	
-	
 	@Override
 	public String toString() {
 		return "\n\tID = " + id + "\n\tUsername = " + username + "\n\tPassword = " + password;

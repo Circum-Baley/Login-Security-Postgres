@@ -30,7 +30,7 @@ public class ConsumptionController {
 	private ConsumptionService consumptionService;
 
 
-	@GetMapping
+	@GetMapping("/list")
 	public ResponseEntity<List<Consumption>> getConsumptions() {
 		return new ResponseEntity<List<Consumption>>(consumptionService.getConsumptions(), HttpStatus.OK);
 	}

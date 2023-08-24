@@ -41,13 +41,18 @@ public class VehicleController {
 		return new ResponseEntity<>(vehicleService.getTotalConsumptionVehicle(vehiclePatente), HttpStatus.OK);
 	}
 
+	@GetMapping("/vehicle/{vehicleId}")
+	public ResponseEntity<Vehicle> getVehicleById(@PathVariable("vehicleId") Integer vehicleId) {
+		return new ResponseEntity<Vehicle>(vehicleService.getVehicleById(vehicleId), HttpStatus.OK);
+	}
+
 	@PostMapping("/user/{userId}")
 	public ResponseEntity<Vehicle> createVehicleUser(@PathVariable("userId") Integer userId,
 			@RequestBody Vehicle vehicle) {
 		return new ResponseEntity<Vehicle>(vehicleService.createVehicleUser(userId, vehicle), HttpStatus.CREATED);
 	}
 
-	@GetMapping
+	@GetMapping("/list")
 	public ResponseEntity<List<Vehicle>> listVehicle() {
 		return new ResponseEntity<List<Vehicle>>(vehicleService.getVehicles(), HttpStatus.OK);
 	}

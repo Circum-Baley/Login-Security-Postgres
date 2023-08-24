@@ -23,6 +23,11 @@ public class AddressController {
 	@Autowired
 	private AddressService addressService;
 
+	@GetMapping("/list")
+	public ResponseEntity<List<Address>> getAddressList() {
+		return new ResponseEntity<List<Address>>(addressService.getAddressList(), HttpStatus.OK);
+	}
+
 	@GetMapping("/{userId}/profiles/{profileId}/addresses")
 	public ResponseEntity<List<Address>> findAddressesByProfileAndUserId(@PathVariable("userId") Integer userId,
 			@PathVariable("profileId") Integer profileId) {
@@ -41,11 +46,6 @@ public class AddressController {
 	public ResponseEntity<Address> deleteAddress(@PathVariable("addressId") Integer addressId) {
 		addressService.delete(addressId);
 		return new ResponseEntity<Address>(HttpStatus.OK);
-	}
-
-	@GetMapping
-	public ResponseEntity<List<Address>> getAddressList() {
-		return new ResponseEntity<List<Address>>(addressService.getAddressList(), HttpStatus.OK);
 	}
 
 }

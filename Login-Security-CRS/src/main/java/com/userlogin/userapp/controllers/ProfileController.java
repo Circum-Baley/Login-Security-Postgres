@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.userlogin.userapp.entities.Device;
 import com.userlogin.userapp.entities.Profile;
+import com.userlogin.userapp.entities.User;
 import com.userlogin.userapp.services.DeviceService;
 import com.userlogin.userapp.services.ProfileService;
 
@@ -29,6 +30,13 @@ public class ProfileController {
 	@Autowired
 	private DeviceService deviceService;
 
+	@GetMapping("/{profileId}")
+	public ResponseEntity<Profile> getProfileById(
+//			@ApiParam(name = "userId", value = "Numero Identificador Del Usuario") <- hay un pequenio error en la consola
+			@PathVariable Integer profileId) {
+		return new ResponseEntity<Profile>(profileService.getProfileById(profileId), HttpStatus.OK);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Profile> createProfileS(@PathVariable("userId") Integer userId,
 			@RequestBody Profile profile) {
@@ -55,7 +63,7 @@ public class ProfileController {
 		return new ResponseEntity<Profile>(profileService.getByUserIdAndProfileId(userId, profileId), HttpStatus.OK);
 	}
 
-	@GetMapping
+	@GetMapping("/list")
 	public ResponseEntity<List<Profile>> getProfile() {
 		return new ResponseEntity<List<Profile>>(profileService.getProfile(), HttpStatus.OK);
 	}

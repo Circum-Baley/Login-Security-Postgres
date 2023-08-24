@@ -2,11 +2,14 @@ package com.userlogin.userapp.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.userlogin.userapp.entities.Device;
 import com.userlogin.userapp.entities.User;
 import com.userlogin.userapp.services.UserService;
 
@@ -33,12 +37,33 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping("/listUser")
-	@Timed("get.users")
+//	@Timed("get.users")
 	@ApiOperation(value = "Retorna Una Lista De Usuario", response = User.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Lista OK"),
 			@ApiResponse(code = 401, message = "NO AUTORIZADO") })
 	public ResponseEntity<List<User>> getUsers() {
 		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
+	}
+
+//	@GetMapping("/list")
+//	public ResponseEntity<List<User>> getUsuarios() {
+//		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
+//	}
+
+	@GetMapping("/list")
+	public Object getList(HttpServletRequest request, Model model) {
+		List<User> userList = userService.getUsers();
+
+		if (isApiRequest(request)) {
+			return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
+		} else {
+			return ResponseEntity.ok(userList);
+		}
+	}
+
+	private boolean isApiRequest(HttpServletRequest request) {
+		String acceptHeader = request.getHeader("Accept");
+		return acceptHeader != null && acceptHeader.contains("application/json");
 	}
 
 	@GetMapping("/listMore3VehicleUser")

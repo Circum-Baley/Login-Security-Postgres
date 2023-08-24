@@ -84,7 +84,8 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 	 */
 
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("forward:/index.xhtml");
+		registry.addViewController("/").setViewName("forward:/index.html");
+//		registry.addViewController("/api-vehicle").setViewName("redirect:/apiVehicle.html");
 		registry.addViewController("/api-vehicle").setViewName("redirect:/apiVehicle.html");
 
 	}
@@ -157,20 +158,15 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 		}
 		for (int i = 0; i < 20; i++) {
 			List<User> users = userRepository.findAll();
-
 			int randomUser = random.nextInt(users.size());
-			Profile profile = new Profile(faker.pokemon().name(), faker.name().lastName(), faker.date().birthday(),
-					users.get(randomUser));
+			Profile profile = new Profile(randomUser, faker.pokemon().name(), faker.name().lastName(),
+					faker.date().birthday(), users.get(randomUser));
 			profileRepository.save(profile);
-
 			List<Profile> profiles = profileRepository.findAll();
-
 			int randomProfile = random.nextInt(profiles.size());
 			Address address = new Address(faker.address().streetAddress(), faker.address().buildingNumber(),
 					faker.address().cityName(), profiles.get(randomProfile));
 			addressRepository.save(address);
-//			log.info("{}{}{}{}{}",address.getId(),address.getStreet(),address.getNumber(),address.getCity(),address.getProfile());
-
 		}
 		for (int i = 0; i < 20; i++) {
 			List<Profile> profiles = profileRepository.findAll();
@@ -187,9 +183,8 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 			Date end = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 			device.setDateAcquisition(faker.date().between(start, end));
 			device.setSerialNumber(faker.internet().uuid());
-			device.setProfile(profiles.get(randomProfile));
+			device.setProfile(profiles.get(randomProfile));;
 			deviceRepository.save(device);
 		}
-
 	}
 }

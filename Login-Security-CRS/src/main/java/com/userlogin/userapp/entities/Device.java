@@ -1,10 +1,8 @@
 package com.userlogin.userapp.entities;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
+//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "device")
 public class Device {
 	@Id
@@ -39,19 +41,8 @@ public class Device {
 
 	@ManyToOne
 	@JoinColumn(name = "profile_id_fk", referencedColumnName = "profile_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Profile profile;
-
-	public Device() {
-	}
-
-	public Device(Integer id, String name, String brand, String model, String serialNumber, Date dateAcquisition) {
-		this.id = id;
-		this.name = name;
-		this.brand = brand;
-		this.model = model;
-		this.serialNumber = serialNumber;
-		this.dateAcquisition = dateAcquisition;
-	}
 
 	public Profile getProfile() {
 		return profile;

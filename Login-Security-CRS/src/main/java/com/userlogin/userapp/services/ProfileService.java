@@ -30,6 +30,10 @@ public class ProfileService {
 		return profileRepository.findAll();
 	}
 
+	public Profile getProfileById(Integer profileId) {
+		return profileRepository.findById(profileId).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("profile %d not found", profileId)));
+	}
 	public Profile createProfileS(Integer userId, Profile profile) {
 		Optional<User> result = userRepository.findById(userId);
 		if (result.isPresent()) {

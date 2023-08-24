@@ -15,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "profile")
 public class Profile {
@@ -30,16 +33,29 @@ public class Profile {
 	private String lastName;
 
 	@Column(name = "birthDate")
-//	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd") // HH:mm:ss")
 //	@Temporal(TemporalType.DATE)
 	private Date birthDate;
 
 	@OneToOne
 	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private User user;
 
 	@OneToMany(cascade = CascadeType.DETACH)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<Device> devices;
+
+	public Profile() {
+	}
+
+	public Profile(Integer id, String name, String lastName, Date birthDate, User user) {// , List<Device> devices) {
+		this.id = id;
+		this.name = name;
+		this.lastName = lastName;
+		this.birthDate = birthDate;
+		this.user = user;
+	}
 
 	public List<Device> getDevices() {
 		return devices;
@@ -47,16 +63,6 @@ public class Profile {
 
 	public void setDevices(List<Device> devices) {
 		this.devices = devices;
-	}
-
-	public Profile() {
-	}
-
-	public Profile(String name, String lastName, Date birthDate, User user) {
-		this.name = name;
-		this.lastName = lastName;
-		this.birthDate = birthDate;
-		this.user = user;
 	}
 
 	public Date getBirthDate() {

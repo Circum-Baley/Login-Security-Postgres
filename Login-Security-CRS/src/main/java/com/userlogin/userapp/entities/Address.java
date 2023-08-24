@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "address")
 public class Address {
@@ -40,6 +42,7 @@ public class Address {
 
 	@ManyToOne
 	@JoinColumn(name = "profile_id_fk", referencedColumnName = "profile_id") // (cascade = CascadeType.REMOVE)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Profile profile;
 
 	public Integer getId() {
@@ -105,5 +108,4 @@ public class Address {
 		Address other = (Address) obj;
 		return Objects.equals(id, other.id);
 	}
-
 }

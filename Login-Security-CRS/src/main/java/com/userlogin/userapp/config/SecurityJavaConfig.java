@@ -35,9 +35,10 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http.headers().frameOptions().disable();
-		http.csrf().disable().authorizeRequests().antMatchers("/api-user/**").hasRole("USER")
-				.antMatchers("/api-usinro/**").permitAll().anyRequest().authenticated().and().httpBasic();
+		http.headers().frameOptions().disable();
+		//Se Excluiran las rutas de los endpoints 
+		http.csrf().disable().authorizeRequests().antMatchers("/chapo/**").hasRole("USER")
+				.antMatchers("/chapo/**").permitAll().anyRequest().authenticated().and().httpBasic();
 //		http.csrf().disable().authorizeRequests()
 ////		.antMatchers("/api/users/**").hasRole("ADMIN")
 //		.antMatchers("/api/**").permitAll() //.anyRequest().authenticated()
