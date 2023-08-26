@@ -5,7 +5,7 @@ $(document).ready(
 			method: "GET",
 			dataType: "json",
 			success: function(data) {
-				var tabla = $("#tabla-users-list");
+				var tabla = $("#table-users-list");
 				data
 					.forEach(function(user) {
 						var vehicles = user.vehicles.map(
@@ -36,3 +36,17 @@ $(document).ready(
 			}
 		});
 	});
+$(document).ready(function() {
+    $.ajax({
+        url: "/api-user/UserTotalCount",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#UserTotalCount").text(data); // Actualizar un elemento HTML con el total de objetos
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error al obtener el total de objetos:", textStatus, errorThrown);
+            // Aquí puedes mostrar un mensaje de error al usuario si es necesario
+        }
+    });
+});

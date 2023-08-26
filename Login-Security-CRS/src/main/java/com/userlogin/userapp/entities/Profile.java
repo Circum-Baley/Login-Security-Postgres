@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
@@ -44,6 +45,7 @@ public class Profile {
 
 	@OneToMany(cascade = CascadeType.DETACH)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
+//	@JsonIgnore
 	private List<Device> devices;
 
 	public Profile() {

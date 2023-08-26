@@ -24,6 +24,9 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	public Long getCountTotalUser() {
+		return userRepository.count();
+	}
 	public Page<User> getUserPageSize(int page, int size) {
 		return userRepository.findAll(PageRequest.of(page, size));
 	}

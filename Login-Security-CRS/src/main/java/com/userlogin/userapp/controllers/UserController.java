@@ -36,6 +36,11 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@GetMapping("/UserTotalCount")
+	public ResponseEntity<Long> getTotalObjects() {
+		return new ResponseEntity<Long>(userService.getCountTotalUser(), HttpStatus.OK);
+	}
+
 	@GetMapping("/listUser")
 //	@Timed("get.users")
 	@ApiOperation(value = "Retorna Una Lista De Usuario", response = User.class)

@@ -6,8 +6,7 @@ $(document).ready(
 			dataType: "json",
 			success: function(data) {
 				var tabla = $("#table-profiles-list");
-				data
-					.forEach(function(profile) {
+				data.forEach(function(profile) {
 						var user = profile.user; // Obtener el usuario relacionado con el perfil
 						var devices = profile.devices.map(
 							function(device) {
@@ -19,13 +18,13 @@ $(document).ready(
 
 						var row = $("<tr>").appendTo(tabla);
 						$("<td>").addClass("text-center").text(profile.id).appendTo(row); // Mostrar ID del perfil
-						$("<td>").text(profile.name).appendTo(row); // Mostrar nombre del perfil
-						$("<td>").text(profile.lastName).appendTo(row); // Mostrar apellido del perfil
-						$("<td>").text(profile.birthDate).appendTo(row); // Mostrar fecha de nacimiento del perfil
+						$("<td>").addClass("text-left").text(profile.name).appendTo(row); // Mostrar nombre del perfil
+						$("<td>").addClass("text-left").text(profile.lastName).appendTo(row); // Mostrar apellido del perfil
+						$("<td>").addClass("text-center").text(profile.birthDate).appendTo(row); // Mostrar fecha de nacimiento del perfil
 						$("<td>").addClass("text-center").html(devices).appendTo(row); // Mostrar dispositivos
 
 						var userLink = generateUserLink(user.id); // Generar enlace al usuario
-						$("<td>").html('<a href="/Profile.html" class="user-link" data-user-id="' + user.id + '">' + user.username + '</a>').appendTo(row); // Mostrar enlace de usuario
+						$("<td>").addClass("text-center").html('<a href="/Profile.html" class="user-link" data-user-id="' + user.id + '">' + user.username + '</a>').appendTo(row); // Mostrar enlace de usuario
 					});
 				function generateDeviceLink(deviceId) {
 					// Aquí generamos un enlace al dispositivo específico usando su ID

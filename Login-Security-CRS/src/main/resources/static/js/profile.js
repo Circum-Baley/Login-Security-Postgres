@@ -4,7 +4,7 @@ $(document).ready(function() {
 		method: "GET",
 		dataType: "json",
 		success: function(data) {
-			var tabla = $("#tabla-profiles-list");
+			var tabla = $("#table-profiles-list");
 			data.forEach(function(profile) {
 				var devices = profile.devices.map(function(device) {
 					var deviceLink = generateDeviceLink(device.id);

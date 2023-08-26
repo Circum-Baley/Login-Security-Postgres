@@ -5,11 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cirbal -</title>
 
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -39,8 +35,6 @@
 			aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-
-
 
 		<div class="dropdown">
 			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
@@ -87,10 +81,8 @@
 					class="dropdown-item" href="/ConsumptionList.html">Consumption</a>
 				<a class="dropdown-item" href="/ProfileList.html">Profile</a> <a
 					class="dropdown-item" href="/AddressList.html">Address</a> <a
-					class="dropdown-item" href="/UserList.html">User <span
-					id="UserTotalCount"
-					class="badge badge-pill bg-gray-700 align-text-bottom text-right"></span>
-				</a> <a class="dropdown-item" href="/UserInRoleList.html" hidden="true">User
+					class="dropdown-item" href="/UserList.html">User</a> <a
+					class="dropdown-item" href="/UserInRoleList.html" hidden="true">User
 					In Role</a> <a class="dropdown-item" href="/RoleList.html">Role</a>
 			</div>
 		</div>
@@ -101,44 +93,27 @@
 			<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
 		</form>
 	</nav>
-	<div class="container">
-		<div class="row text-center">
-			<div class="col">
-				<div class="counter">
-					<i class="fa fa-code fa-2x"></i>
-					<h2 class="timer count-title count-number" data-to="100"
-						data-speed="1500">
-						<a><span id="UserTotalCount" class="text-right"></span></a>
-					</h2>
-					<p class="count-text ">Our Customer</p>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div>
-		<div class="min-h-screen bg-gray-800 py-5">
-			<div class="table-responsive">
-				<table
-					class="table table-striped mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-gray-300">
-					<thead class="bg-gray-900">
-						<tr class="text-left">
-							<th
-								class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Name</th>
-							<th class="text-white font-semibold text-sm uppercase px-6 py-4">
-								Nombre</th>
-							<th
-								class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">
-								status</th>
-							<th
-								class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">
-								role</th>
-						</tr>
-					</thead>
-					<tbody id="tabla-users-list">
+	<div class="min-h-screen bg-gray-800 py-5">
+		<div class="table-responsive">
+			<table class="table table-striped mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-gray-300">
+				<thead class="bg-gray-900">
+					<tr class="text-left">
+						<th
+							class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Name</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4">
+							Nombre</th>
+						<th
+							class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">
+							status</th>
+						<th
+							class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">
+							role</th>
+					</tr>
+				</thead>
+				<tbody id="table-users-list">
 
-					</tbody>
-				</table>
-			</div>
+				</tbody>
+			</table>
 		</div>
 	</div>
 
@@ -148,11 +123,6 @@
 				target="_blank">Springboot -</a> By X
 		</p>
 	</footer>
-
-
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
 		crossorigin="anonymous"></script>
@@ -160,9 +130,7 @@
 		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
 		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
 		crossorigin="anonymous"></script>
-	<script src="js/index.js"></script>
 	<script type="text/javascript" src="js/user.js"></script>
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
 </body>
 </html>
