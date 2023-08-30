@@ -85,7 +85,6 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("forward:/index.html");
-//		registry.addViewController("/api-vehicle").setViewName("redirect:/apiVehicle.html");
 		registry.addViewController("/api-vehicle").setViewName("redirect:/apiVehicle.html");
 
 	}
@@ -106,8 +105,8 @@ public class LoginSecurityCrsApplication implements ApplicationRunner {
 		for (int i = 0; i < 20; i++) {
 
 			User user = new User();
-			user.setUsername(faker.name().username());
-			user.setPassword(faker.animal().name());
+			user.setUsername(faker.animal().name());
+			user.setPassword(faker.name().username());
 
 			User created = userRepository.save(user);
 

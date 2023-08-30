@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +16,6 @@
 
 <!------ Include the above in your HEAD tag ---------->
 <head>
-<link rel="stylesheet" src="css/index.css">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
 <link rel="stylesheet"
@@ -33,14 +33,12 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" href="#">Portafolio Cirbal</a>
+		<a class="navbar-brand" href="/">Portafolio Cirbal</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarColor02" aria-controls="navbarColor02"
 			aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-
-
 
 		<div class="dropdown">
 			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
@@ -87,13 +85,14 @@
 					class="dropdown-item" href="/ConsumptionList.html">Consumption</a>
 				<a class="dropdown-item" href="/ProfileList.html">Profile</a> <a
 					class="dropdown-item" href="/AddressList.html">Address</a> <a
-					class="dropdown-item" href="/UserList.html">User <span
+					class="dropdown-item" href="/UserList.html">User&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span
 					id="UserTotalCount"
-					class="badge badge-pill bg-gray-700 align-text-bottom text-right"></span>
+					class="badge badge-primary align-text-bottom text-right"></span>
 				</a> <a class="dropdown-item" href="/UserInRoleList.html" hidden="true">User
 					In Role</a> <a class="dropdown-item" href="/RoleList.html">Role</a>
 			</div>
 		</div>
+		
 
 		<form class="form-inline">
 			<input class="form-control mr-sm-2" type="search"
@@ -121,20 +120,21 @@
 				<table
 					class="table table-striped mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-gray-300">
 					<thead class="bg-gray-900">
-						<tr class="text-left">
+						<tr >
 							<th
-								class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Name</th>
+								class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">ID #</th>
 							<th class="text-white font-semibold text-sm uppercase px-6 py-4">
-								Nombre</th>
+								Name</th>
+							<th
+								class="text-white font-semibold text-sm uppercase px-6 py-4 text-left">
+								Password</th>
 							<th
 								class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">
-								status</th>
-							<th
-								class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">
-								role</th>
+								Vehicles</th>
+								<th>Actions</th>
 						</tr>
 					</thead>
-					<tbody id="tabla-users-list">
+					<tbody id="table-users-list">
 
 					</tbody>
 				</table>
@@ -150,9 +150,7 @@
 	</footer>
 
 
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
+
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
 		crossorigin="anonymous"></script>

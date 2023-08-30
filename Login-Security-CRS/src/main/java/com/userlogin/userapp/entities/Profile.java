@@ -45,7 +45,7 @@ public class Profile {
 
 	@OneToMany(cascade = CascadeType.DETACH)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
-//	@JsonIgnore
+	@JsonIgnore
 	private List<Device> devices;
 
 	public Profile() {

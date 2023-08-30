@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>List Profile</title>
+<title>List Device</title>
 
 
 <script
@@ -29,7 +29,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" href="/">Portafolio Cirbal</a>
+		<a class="navbar-brand" href="/apiVehicle">Portafolio Cirbal</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarColor02" aria-controls="navbarColor02"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -81,55 +81,52 @@
 					class="dropdown-item" href="/ConsumptionList.html">Consumption</a>
 				<a class="dropdown-item" href="/ProfileList.html">Profile</a> <a
 					class="dropdown-item" href="/AddressList.html">Address</a> <a
-					class="dropdown-item" href="/UserList.html">User - <span id="UserTotalCount" class="badge badge-pill text-right"></span></a> 
-					
-					<a class="dropdown-item" href="/UserInRoleList.html" hidden="true">User
+					class="dropdown-item" href="/UserList.html">User</a> <a
+					class="dropdown-item" href="/UserInRoleList.html" hidden="true">User
 					In Role</a> <a class="dropdown-item" href="/RoleList.html">Role</a>
 			</div>
 		</div>
-	
+
 		<form class="form-inline">
 			<input class="form-control mr-sm-2" type="search"
 				placeholder="Search" aria-label="Search">
 			<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
 		</form>
 	</nav>
-	<div class="min-h-screen bg-gray-800 py-5">
+
+	<div class="min-h-screen min-h-screen bg-gray-800 py-5">
 		<div class="table-responsive">
+			<h2 class="mb-4">Datos Profile</h2>
 			<table
 				class="table table-striped mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-gray-300">
 				<thead class="bg-gray-900">
-					<tr class="text-left">
-						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center"># ID</th>
-						<th class="text-white font-semibold text-sm uppercase px-6 py-4">Nombre</th>
-						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Apellido</th>
-						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Fecha Nacimiento</th>
-						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">role</th>
-						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Username - Profile</th>
+					<tr>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">ID #</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Nombre</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Marca</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Modelo</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Número de serie</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Fecha de adquisición</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Perfil</th>
 					</tr>
 				</thead>
-				<tbody id="table-profiles-list">
+				<tbody id="tabla-devices-list">
+					<!-- Los datos de dispositivos se agregarán aquí mediante JavaScript -->
 				</tbody>
 			</table>
 		</div>
-	</div>
-	<p><span id="UserTotalCount" class="badge badge-pill"></span></p>
+		<footer class="bg-light text-center py-3 mt-5">
+			<p>@Cirbal - Todos los derechos reservados.</p>
+		</footer>
 
-	<footer class="footer text-center ">
-		<p>
-			Made with <a href="https://spring.io/projects/spring-boot"
-				target="_blank">Springboot -</a> By X
-		</p>
-	</footer>
-	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
-		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
-		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-		crossorigin="anonymous"></script>
-	<script type="text/javascript" src="js/listProfile.js"></script>
-	<script type="text/javascript" src="js/user.js"></script>
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+			integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+			integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+			crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script type="text/javascript" src="js/device.js"></script>
 </body>
 </html>

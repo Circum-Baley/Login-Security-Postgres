@@ -26,23 +26,26 @@ public class SecurityJavaConfig extends WebSecurityConfigurerAdapter {
 //Solo se utiliza para agilizar el acceso a la base de datos para realizar pruebas y/o alguna programacion fugaz
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-		.withUser("admin").password(encoder().encode("password")).roles("ADMIN").and()
-		.withUser("user").password(encoder().encode("password")).roles("USER").and()
-		.withUser("root").password(encoder().encode("password")).roles("ROOT").and()
-		.withUser("support").password(encoder().encode("password")).roles("SUPPORT");
+		auth.inMemoryAuthentication().withUser("admin").password(encoder().encode("password")).roles("ADMIN").and()
+				.withUser("user").password(encoder().encode("password")).roles("USER").and().withUser("root")
+				.password(encoder().encode("password")).roles("ROOT").and().withUser("support")
+				.password(encoder().encode("password")).roles("SUPPORT");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.headers().frameOptions().disable();
-		//Se Excluiran las rutas de los endpoints 
-		http.csrf().disable().authorizeRequests().antMatchers("/chapo/**").hasRole("USER")
-				.antMatchers("/chapo/**").permitAll().anyRequest().authenticated().and().httpBasic();
-//		http.csrf().disable().authorizeRequests()
-////		.antMatchers("/api/users/**").hasRole("ADMIN")
-//		.antMatchers("/api/**").permitAll() //.anyRequest().authenticated()
-//		.and().httpBasic();
+//		http.headers().frameOptions().disable();
+		// Configuración para desactivar la protección CSRF y definir las reglas de
+		// autorización
+		// Se Excluiran las rutas de los endpoints
+		http.csrf().disable().authorizeRequests()
+				// Requiere que los usuarios tengan el rol "USER" para acceder a
+				// "/api-consumption"
+				.antMatchers("/hioools/**").hasRole("USER")
+				// Requiere que los usuarios tengan el rol "USER" o "ROOT" para acceder a
+				// "/api-vehicle/**"
+				// .antMatchers("/api-user/**").hasAnyRole("ADMIN", "ROOT")
+				.antMatchers("/hioools/**").permitAll().anyRequest().authenticated().and().httpBasic();
 	}
 
 	@Bean

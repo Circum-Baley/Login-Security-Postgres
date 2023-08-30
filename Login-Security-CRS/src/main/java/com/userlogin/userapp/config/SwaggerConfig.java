@@ -32,8 +32,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	}
 
 	private ApiInfo getApiInfo() {
-		return new ApiInfoBuilder().title("API's CIRBALEY").version("4.4").license("License")
-				.contact(new Contact("@Cirbaley", "www.cirbal.com", "Gonzalo.bahamondez@yandex.com")).build();
+		return new ApiInfoBuilder().title("API's CIRBALEY").version("4.4").license("License").description(
+				"App creada para la informacion en linea con usuarios,RRHH,Consumos especializados en Trasportesde transportes")
+				.contact(new Contact("@Cirbaley", "www.cirbal.com", "Gonzalo.bahamondez@gmail.com")).build();
 	}
 
 	@Override

@@ -1,17 +1,17 @@
 package com.userlogin.userapp.controllers;
 
+import java.nio.file.InvalidPathException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
-import com.userlogin.userapp.entities.Device;
 import com.userlogin.userapp.entities.User;
 import com.userlogin.userapp.services.UserService;
 
-import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -43,17 +43,20 @@ public class UserController {
 
 	@GetMapping("/listUser")
 //	@Timed("get.users")
-	@ApiOperation(value = "Retorna Una Lista De Usuario", response = User.class)
+	@ApiOperation(httpMethod = "GET", value = "Retorna Una Lista De Usuario", responseContainer = "List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Lista OK"),
-			@ApiResponse(code = 401, message = "NO AUTORIZADO") })
+			@ApiResponse(code = 401, message = "NO AUTORIZADO"),
+			@ApiResponse(code = 500, message = "Error interno del servidor") })
 	public ResponseEntity<List<User>> getUsers() {
-		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
+		try {
+			List<User> userList = userService.getUsers();
+			return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
+		} catch (Unauthorized e) {
+			return new ResponseEntity<List<User>>(HttpStatus.UNAUTHORIZED);
+		} catch (Exception e) {
+			return new ResponseEntity<List<User>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-
-//	@GetMapping("/list")
-//	public ResponseEntity<List<User>> getUsuarios() {
-//		return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
-//	}
 
 	@GetMapping("/list")
 	public Object getList(HttpServletRequest request, Model model) {
@@ -97,14 +100,26 @@ public class UserController {
 	}
 
 	@GetMapping("/{userId}")
-	@ApiOperation(value = "Retorna Un Usuario En Respuesta Al ID Entregado Por Parametro", response = User.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Lista OK"),
-			@ApiResponse(code = 401, message = "NO AUTORIZADO") })
+	@ApiOperation(value = "Retorna Como Respuesta Un Usuario En Base Al ID Entregado Por Parametro")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 401, message = "Un-Authorize"), @ApiResponse(code = 403, message = "Refused"),
+			@ApiResponse(code = 404, message = "Path Wrong, Check it!!") })
+	@PreAuthorize("hasRole('USER') or hasRole('ROOT')")
 	public ResponseEntity<User> getUserById(
-//			@ApiParam(name = "userId", value = "Numero Identificador Del Usuario") <- hay un pequenio error en la consola
-			@PathVariable Integer userId) {
-		return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
+			@ApiParam(value = "Id Del Usuario", required = true, example = "123") @PathVariable Integer userId) {
+		try {
+			User userCreated = userService.getUserById(userId);
+			if (userCreated == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
+//			@ApiParam(value = "Id Del Usuario", required = true, name = "userId", example = "123") @PathVariable Integer userId) {
+//		return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
+//	}
 
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {

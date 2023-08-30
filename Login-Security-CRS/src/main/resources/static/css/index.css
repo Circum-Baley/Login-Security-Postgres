@@ -9,7 +9,6 @@ a {
     color: #3e3947 !important;
     text-decoration: none;
 }
-
 a:hover{
     color: #89229b !important;
     text-decoration: none !important;
@@ -489,3 +488,6 @@ footer p a:hover{
   color: #555 !important;
 }
 
+#UserTotalCount {
+    margin-left: auto;
+}

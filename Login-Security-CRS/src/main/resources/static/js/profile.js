@@ -22,19 +22,46 @@ $(document).ready(function() {
 		return "/api-device/device/" + encodeURIComponent(deviceId);
 	}
 });
-$(document).ready(function() {
-	$.ajax({
-		url: "/api-profile/1", // Cambia esto a la URL correcta para obtener el perfil por ID
-		method: "GET",
-		dataType: "json",
-		success: function(data) {
-			// Actualizar los elementos HTML con los datos del perfil
-			$("#name").attr("placeholder", data.name);
-			$("#lastName").attr("placeholder", data.lastName);
-			$("#birthDate").attr("placeholder", data.birthDate);
-		},
-		error: function() {
-			console.error("Error al obtener los datos del perfil");
-		}
+$(document).ready(
+	function() {
+		$.ajax({
+			url: "/api-profile/list",
+			method: "GET",
+			dataType: "json",
+			success: function(data) {
+				var tabla = $("#tabla-profiles-list");
+				data.forEach(function(profile) {
+						var user = profile.user; // Obtener el usuario relacionado con el perfil
+						var devices = profile.devices.map(
+							function(device) {
+								var deviceLink = generateDeviceLink(device.id);
+								return '<a href="' + deviceLink + '">'
+									+ device.name + '</a>';
+							})
+							.join(', ');
+
+						var row = $("<tr>").appendTo(tabla);
+						$("<td>").addClass("text-center").text(profile.id).appendTo(row); // Mostrar ID del perfil
+						$("<td>").addClass("text-left").text(profile.name).appendTo(row); // Mostrar nombre del perfil
+						$("<td>").addClass("text-left").text(profile.lastName).appendTo(row); // Mostrar apellido del perfil
+						$("<td>").addClass("text-center").text(profile.birthDate).appendTo(row); // Mostrar fecha de nacimiento del perfil
+						$("<td>").addClass("text-center").html(devices).appendTo(row); // Mostrar dispositivos
+
+						var userLink = generateUserLink(user.id); // Generar enlace al usuario
+						$("<td>").addClass("text-center").html('<a href="/Profile.html" class="user-link" data-user-id="' + user.id + '">' + user.username + '</a>').appendTo(row); // Mostrar enlace de usuario
+					});
+				function generateDeviceLink(deviceId) {
+					// Aquí generamos un enlace al dispositivo específico usando su ID
+					return "/api-device/" + encodeURIComponent(deviceId);
+				}
+
+				function generateUserLink(userId) {
+					// Aquí generamos un enlace al usuario específico usando su ID
+					return "/api-user/" + encodeURIComponent(userId);
+				}
+			},
+			error: function() {
+				console.error("Error al obtener los datos de perfiles");
+			}
+		});
 	});
-});

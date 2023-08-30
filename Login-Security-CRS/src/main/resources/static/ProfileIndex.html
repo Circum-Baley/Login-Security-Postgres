@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cirbal - Profile</title>
-
 <!-- Enlace a los estilos CSS de Bootstrap -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -16,7 +15,6 @@
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!-- Enlaces a los scripts de jQuery y Popper.js (necesarios para algunas funcionalidades de Bootstrap) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script type="text/javascript" src="js/profile.js"></script>
@@ -44,43 +42,73 @@
 	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
 </head>
 <body>
-	<header class="bg-primary text-white text-center py-3">
-		<h1>Portafolio Spring Boot</h1>
-	</header>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Navbar</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
-				aria-controls="navbarNavDarkDropdown" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<a class="navbar-brand" href="/">Portafolio Cirbal</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarColor02" aria-controls="navbarColor02"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-			<div class="dropdown">
-				<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
-					id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false"> Listado De Api's </a>
+		<div class="dropdown">
+			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+				id="dropdownMenuLink" style="color: white;" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> Listado De Api's </a>
 
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-					<a class="dropdown-item" href="/api-device/listar">Dispositivos</a>
-					<a class="dropdown-item" href="/api-vehicle/list">Vehiculos</a> <a
-						class="dropdown-item" href="/api-profile/list">Perfiles</a> <a
-						class="dropdown-item" href="/api-address/list">Direcciones</a> <a
-						class="dropdown-item" href="/api-user/list">User</a> <a
-						class="dropdown-item" href="/api-consumption/list">Consumos</a> <a
-						class="dropdown-item" href="/api-role/list">Role</a>
-				</div>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="/api-device/listar">Dispositivos</a>
+				<a class="dropdown-item" href="/api-vehicle/list">Vehiculos</a> <a
+					class="dropdown-item" href="/api-profile/list">Perfiles</a> <a
+					class="dropdown-item" href="/api-address/list">Direcciones</a> <a
+					class="dropdown-item" href="/api-user/list">User</a> <a
+					class="dropdown-item" href="/api-consumption/list">Consumos</a> <a
+					class="dropdown-item" href="/api-role/list">Role</a>
 			</div>
 		</div>
-	</nav>
-	<nav class="mt-3">
-		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link"
-				href="/swagger-ui.html#/user-controller">Documentación Swagger</a></li>
-			<li class="nav-item"><a class="nav-link" href="/api-vehicle">TEST
-					API-VEHICLE</a></li>
-		</ul>
+		<div class="dropdown">
+			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+				id="dropdownMenuLink" style="color: white;" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> Documentacion
+				Swagger Api's </a>
+
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="/swagger-ui.html#/vehicle-controller">Vehicle</a>
+				<a class="dropdown-item" href="/swagger-ui.html#/device-controller">Device</a>
+				<a class="dropdown-item"
+					href="/swagger-ui.html#/consumption-controller">Consumption</a> <a
+					class="dropdown-item" href="/swagger-ui.html#/profile-controller">Profile</a>
+				<a class="dropdown-item" href="/swagger-ui.html#/address-controller">Address</a>
+				<a class="dropdown-item" href="/swagger-ui.html#/user-controller">User</a>
+				<a class="dropdown-item"
+					href="/swagger-ui.html#/user-in-role-controller">User In Role</a> <a
+					class="dropdown-item" href="/swagger-ui.html#/role-controller">Role</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+				id="dropdownMenuLink" style="color: white;" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> Interfaz Api's </a>
+
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="/VehicleList.html">Vehicle</a> <a
+					class="dropdown-item" href="/DeviceList.html">Device</a> <a
+					class="dropdown-item" href="/ConsumptionList.html">Consumption</a>
+				<a class="dropdown-item" href="/ProfileList.html">Profile</a> <a
+					class="dropdown-item" href="/AddressList.html">Address</a> <a
+					class="dropdown-item" href="/UserList.html">User&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span
+					id="UserTotalCount"
+					class="badge badge-primary align-text-bottom text-right"></span>
+				</a> <a class="dropdown-item" href="/UserInRoleList.html" hidden="true">User
+					In Role</a> <a class="dropdown-item" href="/RoleList.html">Role</a>
+			</div>
+		</div>
+
+
+		<form class="form-inline">
+			<input class="form-control mr-sm-2" type="search"
+				placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+		</form>
 	</nav>
 	<div class="container light-style flex-grow-1 container-p-y">
 
@@ -109,8 +137,7 @@
 						<div class="tab-pane fade active show" id="account-general">
 
 							<div class="card-body media align-items-center">
-								<img src="#"
-									alt="" class="d-block ui-w-80">
+								<img src="#" alt="" class="d-block ui-w-80">
 								<div class="media-body ml-4">
 									<label class="btn btn-outline-primary"> Upload new
 										photo <input type="file" class="account-settings-fileinput">
@@ -122,11 +149,11 @@
 								</div>
 							</div>
 							<hr class="border-light m-0">
-							
+
 							<div class="card-body">
 								<div class="form-group">
 									<label class="form-label">Nombre</label><input type="text"
-										class="form-control mb-1" id="name"> 
+										class="form-control mb-1" id="name">
 								</div>
 								<div class="form-group">
 									<label class="form-label">Apellido</label> <input type="text"
