@@ -1,6 +1,5 @@
 package com.userlogin.userapp.controllers;
 
-import java.nio.file.InvalidPathException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +22,7 @@ import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 import com.userlogin.userapp.entities.User;
 import com.userlogin.userapp.services.UserService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -31,22 +30,34 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api-user")
+@Api(value = "User Management System", description = "Operaciones relacionadas con la gestión de usuarios")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
 	@GetMapping("/UserTotalCount")
+	@ApiOperation(httpMethod = "GET", value = "Obtener El Total De Usuarios", notes = "Entrega El Numero Total De Ususarios Registrados")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND"),
+			@ApiResponse(code = 500, message = "INTERNAL_SERVER_ERROR!!") })
 	public ResponseEntity<Long> getTotalObjects() {
-		return new ResponseEntity<Long>(userService.getCountTotalUser(), HttpStatus.OK);
+		Long userCreated = userService.getCountTotalUser();
+
+		try {
+			if (userCreated == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Long>(userCreated, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/listUser")
 //	@Timed("get.users")
 	@ApiOperation(httpMethod = "GET", value = "Retorna Una Lista De Usuario", responseContainer = "List")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Lista OK"),
-			@ApiResponse(code = 401, message = "NO AUTORIZADO"),
-			@ApiResponse(code = 500, message = "Error interno del servidor") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND"),
+			@ApiResponse(code = 500, message = "INTERNAL_SERVER_ERROR!!") })
 	public ResponseEntity<List<User>> getUsers() {
 		try {
 			List<User> userList = userService.getUsers();
@@ -61,7 +72,6 @@ public class UserController {
 	@GetMapping("/list")
 	public Object getList(HttpServletRequest request, Model model) {
 		List<User> userList = userService.getUsers();
-
 		if (isApiRequest(request)) {
 			return new ResponseEntity<List<User>>(userService.getUsers(), HttpStatus.OK);
 		} else {
@@ -75,9 +85,19 @@ public class UserController {
 	}
 
 	@GetMapping("/listMore3VehicleUser")
+	@ApiOperation(httpMethod = "GET", value = "Obtiene Valores De Usuarios Con Mas De 3 Vehiculos", notes = "Entrega El O Los Usuarios Que Contengan Mas De 3 Vehiculos A Cargo")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND"),
+			@ApiResponse(code = 500, message = "INTERNAL_SERVER_ERROR!!") })
 	public ResponseEntity<List<User>> getUserWithMoreThanThreeVehicles() {
 		List<User> userList = userService.getUserWithMoreThanThreeVehicles();
-		return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
+		try {
+			if (userList.size() <= 3) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/listConsumptionUser")
@@ -101,29 +121,36 @@ public class UserController {
 
 	@GetMapping("/{userId}")
 	@ApiOperation(value = "Retorna Como Respuesta Un Usuario En Base Al ID Entregado Por Parametro")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
-			@ApiResponse(code = 401, message = "Un-Authorize"), @ApiResponse(code = 403, message = "Refused"),
-			@ApiResponse(code = 404, message = "Path Wrong, Check it!!") })
-	@PreAuthorize("hasRole('USER') or hasRole('ROOT')")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND"),
+			@ApiResponse(code = 500, message = "INTERNAL_SERVER_ERROR!!") })
+//	@PreAuthorize("hasRole('USER') or hasRole('ROOT')")
 	public ResponseEntity<User> getUserById(
-			@ApiParam(value = "Id Del Usuario", required = true, example = "123") @PathVariable Integer userId) {
+			@ApiParam(value = "Id Del Usuario", required = true, example = "2") @PathVariable Integer userId) {
 		try {
 			User userCreated = userService.getUserById(userId);
 			if (userCreated == null) {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
+			return new ResponseEntity<User>(userCreated, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-//			@ApiParam(value = "Id Del Usuario", required = true, name = "userId", example = "123") @PathVariable Integer userId) {
-//		return new ResponseEntity<User>(userService.getUserById(userId), HttpStatus.OK);
-//	}
 
 	@GetMapping("/username/{username}")
+	@ApiOperation(httpMethod = "GETS", value = "bbtiene El Username Del Usuario", notes = "Retorna Un Usuario En Base Al Username Que Se Le Proporciono")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 404, message = "NOT_FOUND"),
+			@ApiResponse(code = 500, message = "INTERNAL_SERVER_ERROR!!") })
 	public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {
-		return new ResponseEntity<User>(userService.getUserByUsername(username), HttpStatus.OK);
+		try {
+			User userCreated = userService.getUserByUsername(username);
+			if (userCreated == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<User>(userCreated, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/username/{username}/{userId}")
