@@ -4,18 +4,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -33,7 +34,7 @@ public class Consumption {
 	@Column(name = "amount")
 	private Double amount;
 
-	@Column(name = "number")
+	@Column(name = "consumption_number")
 	private long number;
 
 	@Column(name = "date_uploaded")
@@ -43,7 +44,7 @@ public class Consumption {
 	private String description;
 
 	@ManyToOne
-	@JoinColumn(referencedColumnName = "vehicle_id", name = "vehicle_id_fk")
+	@JoinColumn(name = "vehicle_id_fk", referencedColumnName = "vehicle_id")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Vehicle vehicle;
 

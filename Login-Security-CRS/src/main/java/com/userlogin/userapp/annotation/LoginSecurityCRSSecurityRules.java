@@ -1,8 +1,9 @@
 package com.userlogin.userapp.annotation;
 //package com.userlogin.userApp.annotation;
+
 //
 //import static java.lang.annotation.RetentionPolicy.RUNTIME;
-//
+
 //import java.lang.annotation.Retention;
 //
 //import org.springframework.security.access.prepost.PostAuthorize;
@@ -10,8 +11,6 @@ package com.userlogin.userapp.annotation;
 //
 //
 ////-------------------META ANOTACION---------------------//
-
-
 
 ///////////////////////                          Rules
 ///////////////////////         picao a choro

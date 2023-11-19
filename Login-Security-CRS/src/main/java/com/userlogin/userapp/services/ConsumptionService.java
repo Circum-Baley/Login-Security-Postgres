@@ -14,7 +14,6 @@ import com.userlogin.userapp.entities.Vehicle;
 import com.userlogin.userapp.repositories.ConsumptionRepository;
 import com.userlogin.userapp.repositories.VehicleRepository;
 
-import javassist.NotFoundException;
 
 @Service
 public class ConsumptionService {
@@ -72,8 +71,8 @@ public class ConsumptionService {
 
 	}
 
-	public Vehicle getVehicleById(Integer vehicleId) {
-		return vehicleRepository.getById(vehicleId);
+	public Optional<Vehicle> getVehicleById(Integer vehicleId) {
+		return vehicleRepository.findById(vehicleId);
 	}
 
 	public int getCountConsumptionsByVehicle(Vehicle vehicle) {

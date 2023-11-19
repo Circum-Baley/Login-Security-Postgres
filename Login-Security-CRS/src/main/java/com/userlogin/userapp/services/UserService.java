@@ -1,12 +1,14 @@
 package com.userlogin.userapp.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +29,7 @@ public class UserService {
 	public Long getCountTotalUser() {
 		return userRepository.count();
 	}
+
 	public Page<User> getUserPageSize(int page, int size) {
 		return userRepository.findAll(PageRequest.of(page, size));
 	}
@@ -56,17 +59,18 @@ public class UserService {
 	}
 
 	public User getUserByUsername(String username) {
-		return userRepository.findByUsername(username)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						String.format("user %d not foundeichon", username)));
+		return userRepository.findByUsername(username).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("user %s not found", username)));
 	}
 
-	public User getUserByUsernameAndId(String username, Integer userId) {
+	public User getUserByUsernameAndById(String username, Integer userId) {
 		return userRepository.findByUsernameAndId(username, userId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						String.format("user %d , %d ", username, userId)));
-
+						String.format("User With Username = %s ,And ID = %d ,Not Found", username, userId)));
 	}
+//	public User getUserByUsernameAndById(String username, Integer userId) {
+//		return userRepository.findByUsernameAndById(username, userId);
+//	}
 
 	public User getUserByUsernameAndPassword(String username, String password) {
 		return userRepository.findByUsernameAndPassword(username, password)
@@ -74,16 +78,16 @@ public class UserService {
 						String.format("The User %s dosen't EXISTS", username)));
 	}
 
+//	public User getUserByName(String username) {
+//	return users.stream().filter(u -> u.getUsername().equals(username)).findAny()
+//			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+//					String.format("User %s not found",username)));
+//}
+
 //	@CacheEvict("users")
 	public void deleteUserByUsername(String username) {
 		User user = getUserByUsername(username);
 		userRepository.delete(user);
 	}
-
-//	public User getUserByName(String username) {
-//		return users.stream().filter(u -> u.getUsername().equals(username)).findAny()
-//				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-//						String.format("User %s not found",username)));
-//	}
 
 }

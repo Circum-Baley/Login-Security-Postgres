@@ -1,13 +1,16 @@
 package com.userlogin.userapp.entities;
 
+import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "role")
@@ -17,16 +20,25 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "role_id")
 	private Integer id;
-	
+
 	@Column(name = "name")
 	private String name;
 
+	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<UserInRole> usersInRoleR;
 
-	
-	public Role( String name) {
+//	public List<UserInRole> getUsersInRoleR() {
+//		return usersInRoleR;
+//	}
+
+	public void setUsersInRoleR(List<UserInRole> usersInRoleR) {
+		this.usersInRoleR = usersInRoleR;
+	}
+
+	public Role(String name) {
 		this.name = name;
 	}
-	
+
 	public Role() {
 	}
 
@@ -61,5 +73,5 @@ public class Role {
 			return false;
 		Role other = (Role) obj;
 		return Objects.equals(id, other.id);
-	}	
+	}
 }

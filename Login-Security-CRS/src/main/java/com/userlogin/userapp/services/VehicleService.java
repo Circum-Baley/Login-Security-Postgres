@@ -32,24 +32,26 @@ public class VehicleService {
 		return (List<Vehicle>) vehicleRepository.findAll();
 	}
 
-	public List<Consumption> getAllWithVehicle() {
+	public List<Consumption> getAllConsumptionWithVehicle() {
 		return vehicleRepository.findAllWithVehicle();
 	}
 
 	public Double getTotalConsumptionVehicle(String vehiclePatente) {
 		Optional<Vehicle> vehicleOptional = vehicleRepository.findByPatent(vehiclePatente);
-		if (vehicleOptional.isPresent()) {
+		Double totalCnsumo = 0.0;
+		if (vehiclePatente.length() > 6) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					String.format("The Patent String use 6 character MAX ex.(BH4532): ATTENTION YOUR PATENT IS %S!!!",
+							vehiclePatente));
+		} else if (vehicleOptional.isPresent()) {
 			Vehicle vehicle = vehicleOptional.get();
 			List<Consumption> consumosTotal = consumptionRepository.findByVehicle(vehicle);
-			Double totalCnsumo = 0.0;
 			for (Consumption consumption : consumosTotal) {
 				totalCnsumo += consumption.getAmount();
 			}
-			return totalCnsumo;
-		} else {
-			throw new ResponseStatusException(HttpStatus.OK,
-					String.format("The Patent String ID : {} Dosen't Exists!!!", vehiclePatente));
 		}
+		return totalCnsumo;
+
 	}
 
 	public Vehicle createVehicleUser(Integer userId, Vehicle vehicle) {
@@ -58,8 +60,7 @@ public class VehicleService {
 			vehicle.setUser(result.get());
 			return vehicleRepository.save(vehicle);
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					String.format("Vehicle %d not foundechion", userId));
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Vehicle %d not Found", userId));
 		}
 	}
 
@@ -75,20 +76,19 @@ public class VehicleService {
 	}
 
 	public Vehicle getVehicleById(Integer vehicleId) {
-		return vehicleRepository.findById(vehicleId).orElseThrow(
-				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Vehicle %d not found", vehicleId)));
+		return vehicleRepository.findById(vehicleId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+				String.format("Vehicle %d not found", vehicleId)));
 	}
 
 	public Vehicle getVehicleByPatent(String patent) {
-		return vehicleRepository.findByPatent(patent)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						String.format("vehicle %d not foundeichon", patent)));
+		return vehicleRepository.findByPatent(patent).orElseThrow(
+				() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("vehicle %d not found", patent)));
 	}
 
 	public Vehicle getByUserIdAndVehicleId(Integer userId, Integer vehicleId) {
 		return vehicleRepository.findByUserIdAndVehicleId(userId, vehicleId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						String.format("vehicle %d , %d ", userId, vehicleId)));
+						String.format("vehicle %d %d NOT Found", userId, vehicleId)));
 	}
 
 //	@CacheEvict("users")

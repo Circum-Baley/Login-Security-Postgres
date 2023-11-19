@@ -1,16 +1,15 @@
 package com.userlogin.userapp.entities;
 
 import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+//	
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
@@ -21,22 +20,22 @@ public class Address {
 	@Column(name = "address_id")
 	private Integer id;
 
-	@Column(name = "street")
+	@Column(name = "street_address")
 	private String street;
 
-	@Column(name = "number")
+	@Column(name = "building_number")
 	private String number;
 
-	@Column(name = "city")
-	private String city;
+	@Column(name = "city_name")
+	private String city_name;
 
 	public Address() {
 	}
 
-	public Address(String street, String number, String city, Profile profile) {
+	public Address(String street, String number, String city_name, Profile profile) {
 		this.street = street;
 		this.number = number;
-		this.city = city;
+		this.city_name = city_name;
 		this.profile = profile;
 	}
 
@@ -69,12 +68,12 @@ public class Address {
 		this.number = number;
 	}
 
-	public String getCity() {
-		return city;
+	public String getCity_name() {
+		return city_name;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setCity_name(String city_name) {
+		this.city_name = city_name;
 	}
 
 //
@@ -93,8 +92,8 @@ public class Address {
 
 	@Override
 	public String toString() {
-		return "\nADDRESS \n\tID =" + id + ", \n\tCalle=" + street + ", \n\tNumero = " + number + ", \n\tCiudad = " + city + ", \n\tprofile ="
-				+ profile;
+		return "\nADDRESS \n\tID =" + id + ", \n\tCalle=" + street + ", \n\tNumero = " + number + ", \n\tCiudad = "
+				+ city_name + ", \n\tprofile =" + profile;
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class AddressService {
 
 	@Autowired
 	private ProfileRepository profileRepository;
-
+	
 	public Address createAddress(Integer userId, Integer profileId, Address address) {
 		Optional<Profile> result = profileRepository.findByUserIdAndProfileId(userId, profileId);
 		if (result.isPresent()) {
@@ -68,12 +68,12 @@ public class AddressService {
 			addressRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					"Address {} %d Nao é possivel excluir entidades relacionadas.");
+					"Address %d No Encontrado.");
 		}
 	}
 
 	public Address getAddressById(Integer addressId) {
 		return addressRepository.findById(addressId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-				String.format("Address %d not foundeichon", addressId)));
+				String.format("Address %d No Encontrado", addressId)));
 	}
 }

@@ -3,6 +3,7 @@ package com.userlogin.userapp.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,10 +19,14 @@ import com.userlogin.userapp.entities.Vehicle;
 import com.userlogin.userapp.services.ConsumptionService;
 import com.userlogin.userapp.services.VehicleService;
 
-import javassist.NotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api-consumption")
+@Tag(name = "Consumption Controller", description = "Operaciones Relacionas Con La Entidad Consumption")
 public class ConsumptionController {
 
 	@Autowired
@@ -29,131 +34,132 @@ public class ConsumptionController {
 	@Autowired
 	private ConsumptionService consumptionService;
 
-
 	@GetMapping("/list")
+	@Operation(summary = "Obtiene Listado De Consumos", description = "Entrega Recurso Del Objeto CONSUMPTION")
+	@ApiResponse(responseCode = "404", description = "No Se Encuentra El Recurso Solicitado")
+	@ApiResponse(responseCode = "202", description = "Listado De Consumos OK")
+	@ApiResponse(responseCode = "500", description = "Error Interno En El Servidor")
 	public ResponseEntity<List<Consumption>> getConsumptions() {
-		return new ResponseEntity<List<Consumption>>(consumptionService.getConsumptions(), HttpStatus.OK);
+		List<Consumption> listConsumption = consumptionService.getConsumptions();
+		try {
+			if (listConsumption.isEmpty() || listConsumption == null) {
+				return new ResponseEntity<List<Consumption>>(HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<List<Consumption>>(listConsumption, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<Consumption>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-////////////////////////////////////////////////////////
-//	@GetMapping("/consumptionChart")
-//	public ViewResolver getViewResolver() {
-//	    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//	    resolver.setPrefix("/view/");
-//	    resolver.setSuffix(".xhtml");
-//	    return resolver;
-//	}
-////////////////////////////////////////////////////////
 
-	// a traves del id de consumo obtenemos el consumo
 	@GetMapping("/{consumptionId}")
-	public ResponseEntity<Consumption> getConsumptionById(@PathVariable("consumptionId") Integer consumptionId) {
-		return new ResponseEntity<Consumption>(consumptionService.getConsumptionById(consumptionId), HttpStatus.OK);
+	@ApiResponse(responseCode = "404", description = "El Recurso Solicitado No Se Encuentra")
+	@ApiResponse(responseCode = "400", description = "Verificar El Ingresos Y 'No Ingresos' De Digitos Y Caracteres")
+	@ApiResponse(responseCode = "200", description = "Informacion Entrega")
+	@ApiResponse(responseCode = "500", description = "Error Interno En El Servidor")
+	public ResponseEntity<Consumption> getConsumptionById(
+			@Parameter(name = "consumptionId", required = true) @PathVariable("consumptionId") Integer consumptionId) {
+		Consumption consumptionById = consumptionService.getConsumptionById(consumptionId);
+		try {
+			if (consumptionById == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			} else if (!(consumptionId instanceof Integer)) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<Consumption>(consumptionById, HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@GetMapping("/vehicle/{vehicleId}/consumption-count")
+	@ApiResponse(responseCode = "404", description = "El Recurso Solicitado No Se Encuentra")
+	@ApiResponse(responseCode = "400", description = "Verificar El Ingresos Y 'No Ingresos' De Digitos Y Caracteres")
+	@ApiResponse(responseCode = "200", description = "Informacion Entregada Correctamente")
+	@ApiResponse(responseCode = "500", description = "Error Interno En El Servidor")
 	public ResponseEntity<Integer> getConsumptionsByVehicle(@PathVariable("vehicleId") Integer vehicleId,
 			@RequestBody Vehicle vehicle) {
-		Consumption consumption = consumptionService.getConsumptionById(vehicleId);
-		if (consumption == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		Consumption consumptionsByVehicleId = consumptionService.getConsumptionById(vehicleId);
+		try {
+			if (consumptionsByVehicleId == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			} else if (!(vehicleId instanceof Integer) || vehicleId == null) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+			int count = consumptionService.getCountConsumptionsByVehicle(vehicle);
+			return new ResponseEntity<>(count, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		int count = consumptionService.getCountConsumptionsByVehicle(vehicle);
-		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
-
-//----------------------------------------------------
-//	@GetMapping("/vehicle/{vehiclePatente}")
-//	public ResponseEntity<Consumption> getConsumptionsByVehicleCount(@PathVariable String vehiclePatente) {
-//		consumptionService.getConsumptionByPatent(vehiclePatente);
-//		return new ResponseEntity<Consumption>(HttpStatus.OK);
-//	}
 
 	@GetMapping("/vehicle/{vehiclePatent}")
-	public ResponseEntity<List<Consumption>> getVehicleByConsumption(@PathVariable String vehiclePatent) throws IllegalArgumentException, NotFoundException {
-		vehicleService.getVehicleByPatent(vehiclePatent);
-		return new ResponseEntity<List<Consumption>>(consumptionService.getConsumptionByPatent(vehiclePatent),
-				HttpStatus.OK);
+	@Operation(summary = "Lista Informacion De Los Vehiculos", description = "Se Encuentra Listado De Los Vehiculos Con Mas CONSUMOS")
+	@ApiResponse(responseCode = "404", description = "El Recurso Solicitado No Se Encuentra")
+	@ApiResponse(responseCode = "400", description = "Verificar El Ingresos y 'NO INGRESO' De Digitos Y Caracteres")
+	@ApiResponse(responseCode = "200", description = "Informacion Entrega")
+	@ApiResponse(responseCode = "500", description = "Error Interno En El Servidor")
+	public ResponseEntity<List<Consumption>> getConsumptionsByVehicle(@PathVariable String vehiclePatent) {
+		List<Consumption> consumptionByPatent = consumptionService.getConsumptionByPatent(vehiclePatent);
+		Vehicle vehicle = vehicleService.getVehicleByPatent(vehiclePatent);
+		try {
+			if (vehicle == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			} else if (vehiclePatent.matches("[a-zA-Z0=9]{6}") || vehiclePatent == null || vehiclePatent.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+			return new ResponseEntity<List<Consumption>>(consumptionByPatent, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-	/**
-	 * 
-	 * @GetMapping("/{licensePlate}") public ResponseEntity<List<Consumption>>
-	 * getConsumptionsByLicensePlate(@PathVariable String licensePlate) {
-	 * List<Consumption> consumptions =
-	 * consumptionService.getConsumptionsByLicensePlate(licensePlate);
-	 * 
-	 * if (consumptions.isEmpty()) { return ResponseEntity.notFound().build(); }
-	 * else { return ResponseEntity.ok(consumptions); } }
-	 */
-
-//	@GetMapping("/vehicles/{vehicleId}/consumptionCount")
-//	public ResponseEntity<List<Consumption>> getVehicleByCountConsumption(
-//			@PathVariable("vehicleId") Integer vehicleId) {
-//			@RequestBody(required = false) Vehicle vehicle) {
-//		Vehicle vehicle = vehicleService.getVehicleById(vehicleId);
-//		if (vehicle == null) {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-
-//		for (Consumption consumption : consumptions) {
-//			consumption.getAmount();
-//		}
-//		List<Consumption> consumptions;
-//		if (vehicle != null && vehicle.getPatent() != null) {
-//			consumptions = consumptionService.getConsumptionByVehicle(vehicle);
-//		}else {
-//			consumptions=consumptionService.getConsumptionByVehicle(vehicle)
-//		}
-
-//		List<Vehicle> vehicles = vehicleService.getVehicles();
-//		List<VehicleConsumptionCount> counts = new ArrayList<>();
-
-//		for (Vehicle vehicle : vehicles) {
-//			int consumptionCount = consumptionService.getConsumptionsByVehicle(vehicle).size();
-//			VehicleConsumptionCount count = new VehicleConsumptionCount(vehicle.getId(), vehicle.getName(),
-//					consumptionCount);
-//			counts.add(count);
-//		}
-
-//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-////		return new ResponseEntity<List<VehicleConsumptionCount>>(counts, HttpStatus.OK);
-//	}
-//
-//	// ----------------------------------------------------
-
 
 	@PostMapping("/{userId}/vehicles/{vehicleId}/consumption")
+	@Operation(summary = "Crea El Objeto CONSUMO", description = "Se Crea El Objeto Consumo Los Cuales "
+			+ "Tambien Tienen Objetos Co-Dependientes Que Si No Existen No Se Podra Realizar La Creacion")
+	@ApiResponse(responseCode = "200", description = "Informacion Entrega")
+	@ApiResponse(responseCode = "400", description = "Verificar El Ingresos y 'NO INGRESO' De Digitos Y Caracteres")
+	@ApiResponse(responseCode = "500", description = "Error Interno En El Servidor")
 	public ResponseEntity<Consumption> createConsumption(@PathVariable("userId") Integer userId,
 			@PathVariable("vehicleId") Integer vehicleId, @RequestBody Consumption consumption) {
-		return new ResponseEntity<Consumption>(consumptionService.createConsumption(userId, vehicleId, consumption),
-				HttpStatus.CREATED);
+		Consumption consumptionCreated = consumptionService.createConsumption(userId, vehicleId, consumption);
+		try {
+			return new ResponseEntity<Consumption>(consumptionCreated, HttpStatus.CREATED);
+		} catch (IllegalArgumentException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
-
-	/***
-	 * Devuelve todos los username de todos los registros ya predefinidos
-	 */
-//	@GetMapping("/number")
-//	public ResponseEntity<List<Long>>getNumber(){
-//		return new ResponseEntity<List<Long>>(consumptionService.getNumbers(),HttpStatus.OK);
-//	}
-//	@GetMapping("/{consumptionId}")
-//	public ResponseEntity<Consumption> getConsumptionById(@PathVariable("consumptionId") Integer consumptionId){
-//		return new ResponseEntity<Consumption>(consumptionService.getConsumptionById(consumptionId),HttpStatus.OK);
-//	}
-//	
-//	@GetMapping("/number/{number}")
-//	public ResponseEntity<Consumption> getUserByUsername(@PathVariable("number")Long number){
-//		return new ResponseEntity<Consumption>(consumptionService.getConsumptionByNumber(number),HttpStatus.OK);
-//	}
-//	
-//	@GetMapping("/number/{number}/{consumptionId}")
-//	public ResponseEntity<Consumption> getConsumptionBynumberAndId(@PathVariable("number") Long number,@PathVariable("consumptionId") Integer consumptionId){
-//		return new ResponseEntity<Consumption>(consumptionService.getConsumptionByNumberAndId(number, consumptionId),HttpStatus.OK);
-//	}
 
 	@DeleteMapping("/{number}")
+	@Operation(summary = "Elimina El Objeto Consumption", description = "Elimina El Objeto CONSUMO, Condicionado Por El Parametro ")
+	@ApiResponse(responseCode = "404", description = "Recurso No Encontrado")
+	@ApiResponse(responseCode = "204", description = "Se Ha Realizado Correcta El Proceso Sin Contenido Retornado Ya Que Solo Se Elimino Un Objeto CONSUMO")
+	@ApiResponse(responseCode = "400", description = "Verificar El Ingresos y 'NO INGRESO' De Digitos Y Caracteres")
+	@ApiResponse(responseCode = "500", description = "Internal En El Servidor")
 	public ResponseEntity<Void> deleteConsumption(@PathVariable("number") Long number) {
-		consumptionService.deleteConsumptionByNumber(number);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		try {
+			Long numberLong = Long.valueOf(number);
+			if (number == null) {
+				return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			} else {
+				consumptionService.deleteConsumptionByNumber(numberLong);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+		} catch (NumberFormatException e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }
+
+//@GetMapping("/consumptionChart")
+//public ViewResolver getViewResolver() {
+//    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//    resolver.setPrefix("/view/");
+//    resolver.setSuffix(".xhtml");
+//    return resolver;
+//}

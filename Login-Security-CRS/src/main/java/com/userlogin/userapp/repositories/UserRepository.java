@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.userlogin.userapp.entities.User;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	// QueryMethods//////
@@ -37,6 +38,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("SELECT c.vehicle.user FROM Consumption c GROUP BY c.vehicle.user ORDER BY COUNT(c) DESC")
 	public List<User> findUserWithMostConsumption();
 
+	
 	/**
 	 * Busca y devuelve una lista de usuarios que tienen más de tres vehículos.
 	 * Los usuarios se ordenan por la cantidad de vehículos en orden descendente.
@@ -45,4 +47,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	 */
 	@Query("SELECT u FROM User u WHERE SIZE(u.vehicles) > 3 ORDER BY SIZE(u.vehicles) DESC")
 	public List<User> findUserWithMoreThanThreeVehicles();
+
 }

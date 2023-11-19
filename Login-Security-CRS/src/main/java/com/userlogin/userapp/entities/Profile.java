@@ -4,16 +4,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,24 +40,17 @@ public class Profile {
 	private Date birthDate;
 
 	@OneToOne
-	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
+//	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "user_id_fk", referencedColumnName = "user_id")
 	private User user;
 
-	@OneToMany(cascade = CascadeType.DETACH)
+	@OneToMany(cascade = CascadeType.DETACH, mappedBy = "profile")
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonIgnore
 	private List<Device> devices;
 
 	public Profile() {
-	}
-
-	public Profile(Integer id, String name, String lastName, Date birthDate, User user) {// , List<Device> devices) {
-		this.id = id;
-		this.name = name;
-		this.lastName = lastName;
-		this.birthDate = birthDate;
-		this.user = user;
 	}
 
 	public List<Device> getDevices() {
