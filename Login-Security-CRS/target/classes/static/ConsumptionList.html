@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List Consumption</title>
+
+
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+<head>
+<link rel="stylesheet" src="css/index.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+<link rel="stylesheet"
+	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+	integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+	href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<a class="navbar-brand" href="/apiVehicle">Portafolio Cirbal</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarColor02" aria-controls="navbarColor02"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="dropdown">
+			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+				id="dropdownMenuLink" style="color: white;" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> Listado De Api's </a>
+
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="/api-device/listar">Dispositivos</a>
+				<a class="dropdown-item" href="/api-vehicle/list">Vehiculos</a> <a
+					class="dropdown-item" href="/api-profile/list">Perfiles</a> <a
+					class="dropdown-item" href="/api-address/list">Direcciones</a> <a
+					class="dropdown-item" href="/api-user/list">User</a> <a
+					class="dropdown-item" href="/api-consumption/list">Consumos</a> <a
+					class="dropdown-item" href="/api-role/list">Role</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+				id="dropdownMenuLink" style="color: white;" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> Documentacion
+				Swagger Api's </a>
+
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="/swagger-ui.html#/vehicle-controller">Vehicle</a>
+				<a class="dropdown-item" href="/swagger-ui.html#/device-controller">Device</a>
+				<a class="dropdown-item"
+					href="/swagger-ui.html#/consumption-controller">Consumption</a> <a
+					class="dropdown-item" href="/swagger-ui.html#/profile-controller">Profile</a>
+				<a class="dropdown-item" href="/swagger-ui.html#/address-controller">Address</a>
+				<a class="dropdown-item" href="/swagger-ui.html#/user-controller">User</a>
+				<a class="dropdown-item"
+					href="/swagger-ui.html#/user-in-role-controller">User In Role</a> <a
+					class="dropdown-item" href="/swagger-ui.html#/role-controller">Role</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			<a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+				id="dropdownMenuLink" style="color: white;" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> Interfaz Api's </a>
+
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="/VehicleList.html">Vehicle</a> <a
+					class="dropdown-item" href="/DeviceList.html">Device</a> <a
+					class="dropdown-item" href="/ConsumptionList.html">Consumption</a>
+				<a class="dropdown-item" href="/ProfileList.html">Profile</a> <a
+					class="dropdown-item" href="/AddressList.html">Address</a> <a
+					class="dropdown-item" href="/UserList.html">User</a> <a
+					class="dropdown-item" href="/UserInRoleList.html" hidden="true">User
+					In Role</a> <a class="dropdown-item" href="/RoleList.html">Role</a>
+			</div>
+		</div>
+
+		<form class="form-inline">
+			<input class="form-control mr-sm-2" type="search"
+				placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+		</form>
+	</nav>
+
+	<div class="min-h-screen min-h-screen bg-gray-800 py-5">
+		<div class="table-responsive">
+			<h2 class="mb-4">Datos Profile</h2>
+			<table
+				class="table table-striped mx-auto max-w-4xl w-full whitespace-nowrap rounded-lg bg-white divide-gray-300">
+				<thead class="bg-gray-900">
+					<tr>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">ID #</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Nombre</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Marca</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Modelo</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Número de serie</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Fecha de adquisición</th>
+						<th class="text-white font-semibold text-sm uppercase px-6 py-4 text-center">Perfil</th>
+					</tr>
+				</thead>
+				<tbody id="tabla-devices-list">
+					<!-- Los datos de dispositivos se agregarán aquí mediante JavaScript -->
+				</tbody>
+			</table>
+		</div>
+		<footer class="bg-light text-center py-3 mt-5">
+			<p>@Cirbal - Todos los derechos reservados.</p>
+		</footer>
+
+		<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+			integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+			integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+			crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script type="text/javascript" src="js/device.js"></script>
+</body>
+</html>

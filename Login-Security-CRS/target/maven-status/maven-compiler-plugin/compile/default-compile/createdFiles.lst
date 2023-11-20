@@ -1,4 +1,5 @@
 com/userlogin/userapp/services/UserInRoleService.class
+com/userlogin/userapp/controllers/RoleController.class
 com/userlogin/userapp/entities/Consumption.class
 com/userlogin/userapp/entities/Role.class
 com/userlogin/userapp/repositories/AddressRepository.class
